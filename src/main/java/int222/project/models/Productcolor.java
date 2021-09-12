@@ -1,9 +1,19 @@
 package int222.project.models;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Set;
+
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 /**
@@ -19,12 +29,12 @@ public class Productcolor implements Serializable {
 
 	@ManyToOne(optional = false)
     @MapsId("cid")
-    @JoinColumn(name = "cid")
+    @JoinColumn(name = "color_cid")
 	private Color color;
 
     @ManyToOne(optional = false)
     @MapsId("pid")
-    @JoinColumn(name = "pid")
+    @JoinColumn(name = "product_pid")
     @JsonBackReference
 	private Product product;
 

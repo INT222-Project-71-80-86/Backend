@@ -16,9 +16,9 @@ public class GeneralRestController {
 	@Autowired
 	ProductJpaRepository prodRepo;
 	
-	@GetMapping("/products")
-	public List<Product> getAllProducts() {
-		List<Product> prodlist = prodRepo.findAll();
-		return prodlist;
+	@GetMapping("/health")
+	public String checkHealth() {
+		return "Service is working!!!!";
 	}
+	
 }

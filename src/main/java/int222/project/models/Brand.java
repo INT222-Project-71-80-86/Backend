@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 
 /**
@@ -24,26 +26,9 @@ public class Brand implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private int bid;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer bid;
 	private String name;
 
-//	public Brand() {
-//	}
-//
-//	public int getBid() {
-//		return this.bid;
-//	}
-//
-//	public void setBid(int bid) {
-//		this.bid = bid;
-//	}
-//
-//	public String getName() {
-//		return this.name;
-//	}
-//
-//	public void setName(String name) {
-//		this.name = name;
-//	}
 
 }

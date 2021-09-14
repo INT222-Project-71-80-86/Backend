@@ -24,7 +24,10 @@ public class Color implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private int cid;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "cid")
+	private Integer cid;
+	
 	private String name;
 
 }

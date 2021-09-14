@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +21,12 @@ import lombok.Setter;
  * The persistent class for the productcolor database table.
  * 
  */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@JsonIgnoreProperties(value = {"id"})
 public class Productcolor implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -29,40 +35,13 @@ public class Productcolor implements Serializable {
 
 	@ManyToOne(optional = false)
     @MapsId("cid")
-    @JoinColumn(name = "color_cid")
-	private Color color;
+    @JoinColumn(name = "cid")
+    private Color color;
 
     @ManyToOne(optional = false)
     @MapsId("pid")
-    @JoinColumn(name = "product_pid")
+    @JoinColumn(name = "pid")
     @JsonBackReference
 	private Product product;
-
-	public Productcolor() {
-	}
-
-	public ProductcolorPK getId() {
-		return this.id;
-	}
-
-	public void setId(ProductcolorPK id) {
-		this.id = id;
-	}
-
-	public Color getColor() {
-		return this.color;
-	}
-
-	public void setColor(Color color) {
-		this.color = color;
-	}
-
-	public Product getProduct() {
-		return this.product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
 
 }

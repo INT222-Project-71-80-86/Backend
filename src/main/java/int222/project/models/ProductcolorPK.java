@@ -27,8 +27,7 @@ public class ProductcolorPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	private int pid;
-
-	private int cid;
+	private Integer pid;
+	private Integer cid;
 
 }

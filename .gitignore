@@ -34,4 +34,4 @@ build/
 /bin/
 
 ### Project ###
-./src/main/resource/upload_images
+**/upload_images

@@ -43,11 +43,21 @@ public class ProductsRestController {
 	public Product searchOne(@PathVariable int pid) {
 		return product.findProductById(pid);
 	}
-	
-	// List All Product
+
+	// Get All Product with Paging
 	@GetMapping("/products")
-	public List<Product> listAll() {
-		return product.findAllProduct();
+	public Page<Product> listAllWithPage(@RequestParam(defaultValue = "0") int pageNo,
+			@RequestParam(defaultValue = "8") int size, @RequestParam(defaultValue = "pid") String sortBy) {
+		return product.findAllProductWithPage(pageNo, size, sortBy);
+	}
+
+	//***********************//
+	//*     Add Product     *//
+	//***********************//
+	@PostMapping(value = "/save", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+	public Product addProduct(@RequestParam(value = "photo", required = true)MultipartFile photo, 
+									@RequestPart Product product) {
+		return this.product.addProduct(photo, product);
 	}
 
 }

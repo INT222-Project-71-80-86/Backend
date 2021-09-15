@@ -57,6 +57,29 @@ public class ProductService {
 		return prodRepo.saveAndFlush(product);
 	}
 
+	// Edit Product
+	public Product editProduct(MultipartFile photo, Product product) {
+		Product oldProd = prodRepo.findById(product.getPid()).orElse(null);
+		if (oldProd == null) {
+			throw new DataRelatedException(ERROR_CODE.PRODUCT_DOESNT_FOUND,
+					"Product with code: " + product.getPid() + " does not exists.");
+		}
+		// If send photo. delete old and add new. If not just use old.
+		if(photo != null) {
+			file.deleteOne(oldProd.getImage());
+			String photoname = file.save(photo);
+			product.setImage(photoname);
+		} else {
+			product.setImage(oldProd.getImage());
+		}
+		
+//		checkColors(product);  // Validate Step
+		addPrimaryKey(product);
+//		resetProductcode(product.getPid()); 
+		return prodRepo.saveAndFlush(product);
+	}
+	
+	// Add ProductColor's Color Primary Key
 	private void addPrimaryKey(Product product) {
 		for (Productcolor p : product.getProductcolor()) {
 			System.out.println(p.getColor().getName());

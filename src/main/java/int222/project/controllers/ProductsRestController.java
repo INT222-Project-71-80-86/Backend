@@ -60,4 +60,49 @@ public class ProductsRestController {
 		return this.product.addProduct(photo, product);
 	}
 
+	//***********************//
+	//*    Edit Product     *//
+	//***********************//
+	
+	@PutMapping(value = "/edit", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+	public Product editProduct(@RequestParam(value = "file", required = false)MultipartFile photo, 
+			@RequestPart Product product) {
+		return this.product.editProduct(photo, product);
+	}
+//
+//	// Delete All ProductColors of Products Before Saving new One
+//	private void resetProductcode(Integer productcode) {
+//		pcRepo.deleteProductByProductcode(productcode);
+//	}
+//
+//	// Add Primary key for ProductColors in Product.
+//	private void addPrimaryKey(Products product) {
+//		for (Productcolors p : product.getProductcolors()) {
+//			p.setProductcolors(new ProductColorsId(product.getProductcode(), p.getColors().getColorid()));
+//			p.setProducts(product);
+//		}
+//	}
+//	
+//	// Check if Request Product has at least one Colors.
+//	private void checkColors(Products product) {
+//		if (product.getProductcolors().isEmpty()) {
+//			throw new DataRelatedException(ERROR_CODE.COLOR_DOESNT_FOUND, "Product does not contain any color!");
+//		}
+//	}
+//
+//	/*****************
+//	 * Delete Method *
+//	 *****************/
+//
+//	@DeleteMapping("/delete/{productcode}")
+//	public Products removeProducts(@PathVariable Integer productcode) {
+//		Products delProd = prodRepo.findById(productcode).orElse(null);
+//		// Check if product is null then throw an exception.
+//		if(delProd == null) {
+//			throw new DataRelatedException(ERROR_CODE.PRODUCT_DOESNT_FOUND, "Cannot find product with productcode: "+productcode);
+//		}
+//		prodRepo.deleteById(productcode);
+//		storeService.deleteOne(delProd.getImage());
+//		return delProd;
+//	}
 }

@@ -16,6 +16,7 @@ import int222.project.exceptions.ExceptionResponse.ERROR_CODE;
 import int222.project.models.Product;
 import int222.project.models.Productcolor;
 import int222.project.models.ProductcolorPK;
+import int222.project.repositories.ProdColorJpaRepository;
 import int222.project.repositories.ProductJpaRepository;
 
 @Service
@@ -25,6 +26,8 @@ public class ProductService {
 	// Repositories //
 	@Autowired
 	private ProductJpaRepository prodRepo;
+	@Autowired
+	private ProdColorJpaRepository pcRepo;
 	// Services //
 	@Autowired
 	private FileStoreServiceImp file;
@@ -75,16 +78,22 @@ public class ProductService {
 		
 //		checkColors(product);  // Validate Step
 		addPrimaryKey(product);
-//		resetProductcode(product.getPid()); 
+		pcRepo.removeByIdPid(product.getPid());
 		return prodRepo.saveAndFlush(product);
 	}
 	
 	// Add ProductColor's Color Primary Key
 	private void addPrimaryKey(Product product) {
 		for (Productcolor p : product.getProductcolor()) {
-			System.out.println(p.getColor().getName());
 			p.setId(new ProductcolorPK(product.getPid(), p.getColor().getCid()));
 			p.setProduct(product);
 		}
 	}
+	
+//	private void checkColors(Product product) {
+//	if (product.getProductcolor().isEmpty()) {
+//		throw new DataRelatedException(ERROR_CODE.COLOR_DOESNT_FOUND, "Product does not contain any color!");
+//	}
+//}
+
 }

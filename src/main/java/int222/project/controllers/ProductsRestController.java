@@ -65,30 +65,11 @@ public class ProductsRestController {
 	//***********************//
 	
 	@PutMapping(value = "/edit", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-	public Product editProduct(@RequestParam(value = "file", required = false)MultipartFile photo, 
+	public Product editProduct(@RequestParam(value = "photo", required = false)MultipartFile photo, 
 			@RequestPart Product product) {
 		return this.product.editProduct(photo, product);
 	}
-//
-//	// Delete All ProductColors of Products Before Saving new One
-//	private void resetProductcode(Integer productcode) {
-//		pcRepo.deleteProductByProductcode(productcode);
-//	}
-//
-//	// Add Primary key for ProductColors in Product.
-//	private void addPrimaryKey(Products product) {
-//		for (Productcolors p : product.getProductcolors()) {
-//			p.setProductcolors(new ProductColorsId(product.getProductcode(), p.getColors().getColorid()));
-//			p.setProducts(product);
-//		}
-//	}
-//	
-//	// Check if Request Product has at least one Colors.
-//	private void checkColors(Products product) {
-//		if (product.getProductcolors().isEmpty()) {
-//			throw new DataRelatedException(ERROR_CODE.COLOR_DOESNT_FOUND, "Product does not contain any color!");
-//		}
-//	}
+
 //
 //	/*****************
 //	 * Delete Method *

@@ -12,16 +12,9 @@ import int222.project.models.Productcolor;
 import int222.project.models.ProductcolorPK;
 
 public interface ProdColorJpaRepository extends JpaRepository<Productcolor, ProductcolorPK>{
-
+	
 	@Transactional
-	@Modifying
-	@Query("DELETE FROM Productcolor pc WHERE pc.id.pid = ?1")
-	void deleteProductByProductId(Integer pid);
-	
-	@Query("SELECT pc FROM Productcolor pc WHERE pc.id.pid = ?1")
-	List<Productcolor> findProductcolorsByProductId(Integer pid);
-	
-	@Query("SELECT pc FROM Productcolor pc WHERE pc.id.pid = ?1 AND pc.id.cid = ?2")
-	Productcolor findProductColorByProductIdAndColorId(Integer pid, Integer cid);
-	
+	void removeByIdPid(Integer idPid);
+
+
 }

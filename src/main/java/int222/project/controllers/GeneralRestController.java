@@ -11,10 +11,12 @@ import int222.project.models.Brand;
 import int222.project.models.Category;
 import int222.project.models.Color;
 import int222.project.models.Product;
+import int222.project.models.User;
 import int222.project.repositories.BrandJpaRepositories;
 import int222.project.repositories.CategoryJpaRepository;
 import int222.project.repositories.ColorJpaRepositories;
 import int222.project.repositories.ProductJpaRepository;
+import int222.project.repositories.UserJpaRepository;
 
 @RestController
 public class GeneralRestController {
@@ -27,6 +29,8 @@ public class GeneralRestController {
 	CategoryJpaRepository catRepo;
 	@Autowired
 	ColorJpaRepositories colorRepo;
+	@Autowired
+	UserJpaRepository userRepo;
 	
 	@GetMapping("/health")
 	public String checkHealth() {
@@ -48,4 +52,10 @@ public class GeneralRestController {
 	public List<Color> getColors() {
 		return colorRepo.findAll();
 	}
+	
+	@GetMapping("/users")
+	public List<User> getUser(){
+		return userRepo.findAll();
+	}
+	
 }

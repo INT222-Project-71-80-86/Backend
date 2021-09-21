@@ -7,11 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import int222.project.models.Authentication;
 import int222.project.models.Brand;
 import int222.project.models.Category;
 import int222.project.models.Color;
+import int222.project.models.Coupon;
+import int222.project.models.Orders;
+import int222.project.models.Orderdetail;
 import int222.project.models.Product;
-import int222.project.models.User;
+import int222.project.models.Productcolor;
+import int222.project.models.Review;
+import int222.project.models.Users;
 import int222.project.repositories.AuthenticationJpaRepository;
 import int222.project.repositories.BrandJpaRepository;
 import int222.project.repositories.CategoryJpaRepository;
@@ -72,8 +78,37 @@ public class GeneralRestController {
 	}
 	
 	@GetMapping("/users")
-	public List<User> getUser(){
+	public List<Users> getUser(){
 		return userRepo.findAll();
 	}
 	
+	@GetMapping("/auths")
+	public List<Authentication> getAuth() {
+		return authRepo.findAll();
+	}
+	
+	@GetMapping("/coupons")
+	public List<Coupon> getCoupon() {
+		return couRepo.findAll();
+	}
+	
+	@GetMapping("/orders")
+	public List<Orders> getOrder() {
+		return orderRepo.findAll();
+	}
+	
+	@GetMapping("/orderdetails")
+	public List<Orderdetail> getOrderDetail(){
+		return orderdetailRepo.findAll();
+	}
+	
+	@GetMapping("/reviews")
+	public List<Review> getReview(){
+		return reviewRepo.findAll();
+	}
+	
+	@GetMapping("/prodcolors")
+	public List<Productcolor> getProdColor(){
+		return pcRepo.findAll();
+	}
 }

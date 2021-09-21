@@ -12,10 +12,16 @@ import int222.project.models.Category;
 import int222.project.models.Color;
 import int222.project.models.Product;
 import int222.project.models.User;
-import int222.project.repositories.BrandJpaRepositories;
+import int222.project.repositories.AuthenticationJpaRepository;
+import int222.project.repositories.BrandJpaRepository;
 import int222.project.repositories.CategoryJpaRepository;
-import int222.project.repositories.ColorJpaRepositories;
+import int222.project.repositories.ColorJpaRepository;
+import int222.project.repositories.CouponJpaRepository;
+import int222.project.repositories.OrderJpaRepository;
+import int222.project.repositories.OrderdetailJpaRepository;
+import int222.project.repositories.ProdColorJpaRepository;
 import int222.project.repositories.ProductJpaRepository;
+import int222.project.repositories.ReviewJpaRepository;
 import int222.project.repositories.UserJpaRepository;
 
 @RestController
@@ -24,13 +30,25 @@ public class GeneralRestController {
 	@Autowired
 	ProductJpaRepository prodRepo;
 	@Autowired
-	BrandJpaRepositories brandRepo;
+	BrandJpaRepository brandRepo;
 	@Autowired
 	CategoryJpaRepository catRepo;
 	@Autowired
-	ColorJpaRepositories colorRepo;
+	ColorJpaRepository colorRepo;
 	@Autowired
 	UserJpaRepository userRepo;
+	@Autowired
+	AuthenticationJpaRepository authRepo;
+	@Autowired
+	CouponJpaRepository couRepo;
+	@Autowired
+	OrderJpaRepository orderRepo;
+	@Autowired
+	OrderdetailJpaRepository orderdetailRepo;
+	@Autowired
+	ReviewJpaRepository reviewRepo;
+	@Autowired
+	ProdColorJpaRepository pcRepo;
 	
 	@GetMapping("/health")
 	public String checkHealth() {

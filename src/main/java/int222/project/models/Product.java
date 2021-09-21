@@ -41,6 +41,7 @@ public class Product implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd")
 	@Column(name="release_date")
 	private Date releaseDate;
+    private Integer warranty;
     
     @ManyToOne
     @JoinColumn(name = "bid", referencedColumnName = "bid")

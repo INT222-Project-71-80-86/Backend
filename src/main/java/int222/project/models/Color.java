@@ -29,5 +29,7 @@ public class Color implements Serializable {
 	private Integer cid;
 	
 	private String name;
+	
+	private String code;
 
 }

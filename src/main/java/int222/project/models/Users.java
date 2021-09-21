@@ -28,7 +28,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @JsonIgnoreProperties(value = "auth")
 @Entity
-public class User implements Serializable{
+public class Users implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	

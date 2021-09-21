@@ -21,7 +21,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Order implements Serializable {
+public class Orders implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -33,6 +33,6 @@ public class Order implements Serializable {
     @MapsId("uid")
     @JoinColumn(name = "uid")
     @JsonBackReference
-	private User user;
+	private Users user;
 	
 }

@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,18 +27,21 @@ public class Orderdetail implements Serializable {
 
 	@EmbeddedId
 	private OrderdetailPK id;
+	
     private Integer amount;
     private BigDecimal priceeach;
+    
 	@ManyToOne(optional = false)
-    @MapsId("uid")
-    @JoinColumn(name = "uid")
-    private User user;
+    @MapsId("oid")
+    @JoinColumn(name = "oid")
+	@JsonBackReference
+    private Orders order;
 
     @ManyToOne(optional = false)
     @MapsId("pid")
     @JoinColumn(name = "pid")
+    @JsonBackReference
 	private Product product;
 
-	
 
 }

@@ -31,7 +31,7 @@ public class Authentication implements Serializable {
 	@MapsId
 	@JoinColumn(name = "uid")
 	@JsonBackReference
-	private User user;
+	private Users user;
 	
 	private String password;
 	

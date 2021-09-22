@@ -7,22 +7,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
 import int222.project.exceptions.DataRelatedException;
 import int222.project.exceptions.ExceptionResponse.ERROR_CODE;
 import int222.project.models.Brand;
-import int222.project.models.Product;
-import int222.project.models.Productcolor;
-import int222.project.models.ProductcolorPK;
 import int222.project.repositories.BrandJpaRepository;
-import int222.project.repositories.ProdColorJpaRepository;
-import int222.project.repositories.ProductJpaRepository;
 
 @Service
 public class BrandService {

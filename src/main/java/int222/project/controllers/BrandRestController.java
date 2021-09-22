@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import int222.project.exceptions.DataRelatedException;
@@ -16,31 +17,32 @@ import int222.project.models.Brand;
 import int222.project.repositories.BrandJpaRepository;
 import int222.project.services.BrandService;
 
+@RequestMapping(path = "/api/brand")
 @RestController
 public class BrandRestController {
 	
 	@Autowired BrandService brandservice;
 	
 	// Get all brands 
-	@GetMapping("/brands")
+	@GetMapping("")
 	public List<Brand> getBrands() {
 		return brandservice.findAllBrands();
 	}
 	
 	// Search Brand By Id
-	@GetMapping("/brand/{bid}")
+	@GetMapping("/{bid}")
 	public Brand getBrand(@PathVariable Integer bid) {
 		return brandservice.findBrandById(bid);
 	}
 	
 	// Add Brand
-	@PostMapping("/brand/save")
+	@PostMapping("/save")
 	public Brand addBrand(@RequestBody Brand brand) {
 		return brandservice.addBrand(brand);
 	}
 	
 	// Edit Brand
-	@PutMapping("/brand/edit")
+	@PutMapping("/edit")
 	public Brand editBrand(@RequestBody Brand brand) {
 		return brandservice.editBrand(brand);
 	}

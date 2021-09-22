@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
@@ -68,20 +69,29 @@ public class ProductService {
 					"Product with code: " + product.getPid() + " does not exists.");
 		}
 		// If send photo. delete old and add new. If not just use old.
-		if(photo != null) {
+		if (photo != null) {
 			file.deleteOne(oldProd.getImage());
 			String photoname = file.save(photo);
 			product.setImage(photoname);
 		} else {
 			product.setImage(oldProd.getImage());
 		}
-		
+
 //		checkColors(product);  // Validate Step
 		addPrimaryKey(product);
 		pcRepo.removeByIdPid(product.getPid());
 		return prodRepo.saveAndFlush(product);
 	}
-	
+
+	// Remove product
+	public Product removeProducts(Integer pid) {
+		Product delProd = prodRepo.findById(pid).orElseThrow(() -> new DataRelatedException(ERROR_CODE.PRODUCT_DOESNT_FOUND,
+				"Cannot find product with productcode: " + pid));
+		prodRepo.deleteById(pid);
+		file.deleteOne(delProd.getImage());
+		return delProd;
+	}
+
 	// Add ProductColor's Color Primary Key
 	private void addPrimaryKey(Product product) {
 		for (Productcolor p : product.getProductcolor()) {
@@ -89,7 +99,7 @@ public class ProductService {
 			p.setProduct(product);
 		}
 	}
-	
+
 //	private void checkColors(Product product) {
 //	if (product.getProductcolor().isEmpty()) {
 //		throw new DataRelatedException(ERROR_CODE.COLOR_DOESNT_FOUND, "Product does not contain any color!");

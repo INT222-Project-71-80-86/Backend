@@ -70,20 +70,11 @@ public class ProductRestController {
 		return this.product.editProduct(photo, product);
 	}
 
-//
-//	/*****************
-//	 * Delete Method *
-//	 *****************/
-//
-//	@DeleteMapping("/delete/{productcode}")
-//	public Products removeProducts(@PathVariable Integer productcode) {
-//		Products delProd = prodRepo.findById(productcode).orElse(null);
-//		// Check if product is null then throw an exception.
-//		if(delProd == null) {
-//			throw new DataRelatedException(ERROR_CODE.PRODUCT_DOESNT_FOUND, "Cannot find product with productcode: "+productcode);
-//		}
-//		prodRepo.deleteById(productcode);
-//		storeService.deleteOne(delProd.getImage());
-//		return delProd;
-//	}
+	//*************************//
+	//*    Remove Product     *//
+	//*************************//
+	@DeleteMapping("/delete/{pid}")
+	public Product removeProduct(@PathVariable Integer pid) {
+		return this.product.removeProducts(pid);
+	}
 }

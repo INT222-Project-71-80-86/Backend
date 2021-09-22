@@ -25,7 +25,7 @@ import int222.project.repositories.ProductJpaRepository;
 import int222.project.services.ProductService;
 
 @RestController
-public class ProductsRestController {
+public class ProductRestController {
 	
 	//**************************//
 	//*     Local Variable     *//

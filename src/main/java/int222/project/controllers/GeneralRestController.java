@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import int222.project.models.Authentication;
@@ -60,12 +62,10 @@ public class GeneralRestController {
 	public String checkHealth() {
 		return "Service is working!!!!";
 	}
+	// Current Working //
+
 	
 	// For Testing //
-	@GetMapping("/brands")
-	public List<Brand> getBrands() {
-		return brandRepo.findAll();
-	}
 	
 	@GetMapping("/cats")
 	public List<Category> getCategories() {

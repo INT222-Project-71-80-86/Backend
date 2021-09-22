@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,7 @@ import int222.project.models.Product;
 import int222.project.repositories.ProductJpaRepository;
 import int222.project.services.ProductService;
 
+@RequestMapping(path = "/api/product")
 @RestController
 public class ProductRestController {
 	
@@ -39,13 +41,13 @@ public class ProductRestController {
 	//**************************//
 	
 	// Search One Product 
-	@GetMapping("/product/{pid}")
+	@GetMapping("/{pid}")
 	public Product searchOne(@PathVariable int pid) {
 		return product.findProductById(pid);
 	}
 
 	// Get All Product with Paging
-	@GetMapping("/products")
+	@GetMapping("")
 	public Page<Product> listAllWithPage(@RequestParam(defaultValue = "0") int pageNo,
 			@RequestParam(defaultValue = "8") int size, @RequestParam(defaultValue = "pid") String sortBy) {
 		return product.findAllProductWithPage(pageNo, size, sortBy);
@@ -63,16 +65,15 @@ public class ProductRestController {
 	//***********************//
 	//*    Edit Product     *//
 	//***********************//
-	
 	@PutMapping(value = "/edit", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
 	public Product editProduct(@RequestParam(value = "photo", required = false)MultipartFile photo, 
 			@RequestPart Product product) {
 		return this.product.editProduct(photo, product);
 	}
 
-	//*************************//
-	//*    Remove Product     *//
-	//*************************//
+	//**************************//
+	//*     Remove Product     *//
+	//**************************//
 	@DeleteMapping("/delete/{pid}")
 	public Product removeProduct(@PathVariable Integer pid) {
 		return this.product.removeProducts(pid);

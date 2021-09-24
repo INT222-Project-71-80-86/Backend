@@ -78,30 +78,7 @@ public class GeneralRestController {
 		return "Service is working!!!!";
 	}
 	// Current Working //
-	//////////////////
-	// Get All File //
-	//////////////////
-	@GetMapping("/files")
-	public ResponseEntity<List<FileInfo>> getListFiles() {
-		List<FileInfo> fileInfos = this.file.loadAll().map(path -> {
-			String filename = path.getFileName().toString();
-			String url = MvcUriComponentsBuilder
-					.fromMethodName(GeneralRestController.class, "getFile", path.getFileName().toString()).build().toString();
-			return new FileInfo(filename, url);
-		}).collect(Collectors.toList());
 
-		return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
-	}
-
-	////////////////////
-	// Get Image File //
-	////////////////////
-	@GetMapping(value = "/files/{filename:.+}")
-	@ResponseBody
-	public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-		Resource file = this.file.load(filename); // Get Resource File
-		return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(file); // Return Resource as IMAGE File
-	}
 	
 	// For Testing //
 	

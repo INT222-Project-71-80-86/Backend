@@ -103,15 +103,6 @@ public class GeneralRestController {
 		return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(file); // Return Resource as IMAGE File
 	}
 	
-	// Get Image from prod id //
-	@GetMapping("/product/image/{pid}")
-	public ResponseEntity<Resource> getFileFromPid(@PathVariable Integer pid){
-		Product p = prodRepo.findById(pid).orElseThrow(() -> new DataRelatedException(ERROR_CODE.PRODUCT_DOESNT_FOUND,
-				"Product number " + pid + " does not exist."));
-		Resource file = this.file.load(p.getImage()); // Get Resource File
-		return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(file);
-	}
-	
 	// For Testing //
 	
 	@GetMapping("/cats")

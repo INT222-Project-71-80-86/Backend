@@ -1,13 +1,10 @@
 package int222.project.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import int222.project.exceptions.DataRelatedException;
-import int222.project.exceptions.ExceptionResponse.ERROR_CODE;
 import int222.project.models.Product;
-import int222.project.repositories.ProductJpaRepository;
 import int222.project.services.ProductService;
 
 @RequestMapping(path = "/api/product")
@@ -78,4 +72,13 @@ public class ProductRestController {
 	public Product removeProduct(@PathVariable Integer pid) {
 		return this.product.removeProducts(pid);
 	}
+	
+	//**************************//
+	//*     Remove Product     *//
+	//**************************//
+	@GetMapping("/image/{pid}")
+	public ResponseEntity<Resource> getFileFromPid(@PathVariable Integer pid){
+		return this.product.getFileFromPid(pid);
+	}
+	
 }

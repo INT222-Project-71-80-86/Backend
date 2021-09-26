@@ -30,9 +30,9 @@ public class ColorRestController {
 	}
 	
 	// Search Color By Id
-	@GetMapping("/{bid}")
-	public Color getColor(@PathVariable Integer bid) {
-		return colorservice.findColorById(bid);
+	@GetMapping("/{cid}")
+	public Color getColor(@PathVariable Integer cid) {
+		return colorservice.findColorById(cid);
 	}
 	
 	// Add Color

@@ -82,47 +82,47 @@ public class GeneralRestController {
 	
 	// For Testing //
 	
-	@GetMapping("/cats")
+	@GetMapping("/api/cats")
 	public List<Category> getCategories() {
 		return catRepo.findAll();
 	}
 	
-	@GetMapping("/colors")
-	public List<Color> getColors() {
-		return colorRepo.findAll();
-	}
+//	@GetMapping("/color")
+//	public List<Color> getColors() {
+//		return colorRepo.findAll();
+//	}
 	
-	@GetMapping("/users")
+	@GetMapping("/api/users")
 	public List<Users> getUser(){
 		return userRepo.findAll();
 	}
 	
-	@GetMapping("/auths")
+	@GetMapping("/api/auths")
 	public List<Authentication> getAuth() {
 		return authRepo.findAll();
 	}
 	
-	@GetMapping("/coupons")
+	@GetMapping("/api/coupons")
 	public List<Coupon> getCoupon() {
 		return couRepo.findAll();
 	}
 	
-	@GetMapping("/orders")
+	@GetMapping("/api/orders")
 	public List<Orders> getOrder() {
 		return orderRepo.findAll();
 	}
 	
-	@GetMapping("/orderdetails")
+	@GetMapping("/api/orderdetails")
 	public List<Orderdetail> getOrderDetail(){
 		return orderdetailRepo.findAll();
 	}
 	
-	@GetMapping("/reviews")
+	@GetMapping("/api/reviews")
 	public List<Review> getReview(){
 		return reviewRepo.findAll();
 	}
 	
-	@GetMapping("/prodcolors")
+	@GetMapping("/api/prodcolors")
 	public List<Productcolor> getProdColor(){
 		return pcRepo.findAll();
 	}

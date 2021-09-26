@@ -34,4 +34,4 @@ build/
 /bin/
 
 ### Project ###
-**/upload_images
+# **/upload_images

@@ -73,9 +73,9 @@ public class ProductRestController {
 		return this.product.removeProducts(pid);
 	}
 	
-	//**************************//
-	//*     Remove Product     *//
-	//**************************//
+	//*****************************//
+	//*     Get Product Image     *//
+	//*****************************//
 	@GetMapping("/image/{pid}")
 	public ResponseEntity<Resource> getFileFromPid(@PathVariable Integer pid){
 		return this.product.getFileFromPid(pid);

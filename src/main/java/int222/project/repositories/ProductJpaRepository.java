@@ -15,4 +15,7 @@ public interface ProductJpaRepository extends JpaRepository<Product, Integer> {
 	public Page<Product> findProductByString(String query, Pageable pageable);
 	
 	public Page<Product> findProductByBrandBid(Integer bid, Pageable pageable);
+	public Page<Product> findProductByCategoryCatid(Integer catid, Pageable pageable);
+	
+	
 }

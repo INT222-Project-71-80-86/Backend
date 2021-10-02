@@ -65,6 +65,11 @@ public class ProductService {
 		Page<Product> p = prodRepo.findProductByBrandBid(bid, PageRequest.of(pageNo, size, Sort.by(sortBy)));
 		return p;
 	}
+	
+	public Page<Product> filterProductByCategory(Integer catid, int pageNo, int size, String sortBy){
+		Page<Product> p = prodRepo.findProductByCategoryCatid(catid, PageRequest.of(pageNo, size, Sort.by(sortBy)));
+		return p;
+	}
 
 	// Add Product
 	public Product addProduct(MultipartFile photo, Product product) {

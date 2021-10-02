@@ -56,11 +56,16 @@ public class ProductRestController {
 	
 	// Filter Product by brand
 	@GetMapping("/brand")
-	public Page<Product> filterByBrands(@RequestParam(name = "id") Integer bid, @RequestParam(defaultValue = "0") int pageNo,
+	public Page<Product> filterByBrand(@RequestParam(name = "id") Integer bid, @RequestParam(defaultValue = "0") int pageNo,
 			@RequestParam(defaultValue = "5") int size, @RequestParam(defaultValue = "pid") String sortBy){
 		return product.filterProductByBrand(bid, pageNo, size, sortBy);
 	}
 
+	@GetMapping("/cat")
+	public Page<Product> filterByCategory(@RequestParam(name = "id") Integer catid, @RequestParam(defaultValue = "0") int pageNo,
+			@RequestParam(defaultValue = "5") int size, @RequestParam(defaultValue = "pid") String sortBy){
+		return product.filterProductByCategory(catid, pageNo, size, sortBy);
+	}
 	//***********************//
 	//*     Add Product     *//
 	//***********************//

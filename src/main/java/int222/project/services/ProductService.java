@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +51,13 @@ public class ProductService {
 	// Search All Product With Paging
 	public Page<Product> findAllProductWithPage(int pageNo, int size, String sortBy) {
 		return prodRepo.findAll(PageRequest.of(pageNo, size, Sort.by(sortBy)));
+	}
+	
+	//Search Product with search filter (from text box)
+	public Page<Product> findAllProductContainsParams(String searchValue, int pageNo, int size, String sortBy){
+		//Search Product within field description, name, brand.name, cat.name
+		Page<Product> p = prodRepo.findProductByString(searchValue,PageRequest.of(pageNo, size, Sort.by(sortBy)));
+		return p;
 	}
 
 	// Add Product

@@ -43,8 +43,15 @@ public class ProductRestController {
 	// Get All Product with Paging
 	@GetMapping("")
 	public Page<Product> listAllWithPage(@RequestParam(defaultValue = "0") int pageNo,
-			@RequestParam(defaultValue = "8") int size, @RequestParam(defaultValue = "pid") String sortBy) {
+			@RequestParam(defaultValue = "5") int size, @RequestParam(defaultValue = "pid") String sortBy) {
 		return product.findAllProductWithPage(pageNo, size, sortBy);
+	}
+	
+	// Search Product By Query values
+	@GetMapping("/query")
+	public Page<Product> findAllWithSearchValue(@RequestParam String searchValue, @RequestParam(defaultValue = "0") int pageNo,
+			@RequestParam(defaultValue = "5") int size, @RequestParam(defaultValue = "pid") String sortBy){
+		return product.findAllProductContainsParams(searchValue,pageNo, size, sortBy);
 	}
 
 	//***********************//

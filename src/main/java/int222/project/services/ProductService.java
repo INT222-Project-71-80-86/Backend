@@ -75,7 +75,7 @@ public class ProductService {
 	public Product addProduct(MultipartFile photo, Product product) {
 		String filename = file.save(photo); // Store photo and get randomize filename.
 		product.setImage(filename); // set randomized filename to product.
-//		checkColors(product); // Validate Step
+		validateAttribute(product);
 		product.setPid(0);
 		addPrimaryKey(product);
 		return prodRepo.saveAndFlush(product);
@@ -88,16 +88,15 @@ public class ProductService {
 			throw new DataRelatedException(ERROR_CODE.PRODUCT_DOESNT_FOUND,
 					"Product with code: " + product.getPid() + " does not exists.");
 		}
-		// If send photo. delete old and add new. If not just use old.
+		// If send photo add new. If not just use old.
 		if (photo != null) {
-			file.deleteOne(oldProd.getImage());
 			String photoname = file.save(photo);
 			product.setImage(photoname);
 		} else {
 			product.setImage(oldProd.getImage());
 		}
-
-//		checkColors(product);  // Validate Step
+		validateAttribute(product);
+		file.deleteOne(oldProd.getImage()); // If Validate Succesfully Remove old image
 		addPrimaryKey(product);
 		pcRepo.removeByIdPid(product.getPid());
 		return prodRepo.saveAndFlush(product);
@@ -120,11 +119,17 @@ public class ProductService {
 		}
 	}
 
-//	private void checkColors(Product product) {
-//	if (product.getProductcolor().isEmpty()) {
-//		throw new DataRelatedException(ERROR_CODE.COLOR_DOESNT_FOUND, "Product does not contain any color!");
-//	}
-//}
+	// For validating product [ validating productcolor because it can save when no productcolor is present 
+	// and image because adding new random string to make it distinct 
+	private void validateAttribute(Product product) {
+		if (product.getProductcolor().isEmpty()) {
+			file.deleteOne(product.getImage());
+			throw new DataRelatedException(ERROR_CODE.COLOR_DOESNT_FOUND, "Product does not contain any color!");
+		} else if (product.getImage().length() > 200) {
+			file.deleteOne(product.getImage());
+			throw new DataRelatedException(ERROR_CODE.INVALID_PRODUCT_ATTRIBUTE, "File name is too long!");
+		}
+	}
 	
 	// Get image from pid
 	public ResponseEntity<Resource> getFileFromPid(Integer pid){

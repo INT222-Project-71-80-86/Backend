@@ -13,4 +13,6 @@ public interface ProductJpaRepository extends JpaRepository<Product, Integer> {
 			+ "LEFT JOIN Category c on p.category.catid = c.catid "
 			+ "WHERE p.name LIKE %?1% OR p.description LIKE %?1% OR b.name LIKE %?1% OR c.name LIKE %?1%")
 	public Page<Product> findProductByString(String query, Pageable pageable);
+	
+	public Page<Product> findProductByBrandBid(Integer bid, Pageable pageable);
 }

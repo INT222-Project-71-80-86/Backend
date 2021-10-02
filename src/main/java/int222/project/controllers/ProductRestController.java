@@ -53,6 +53,13 @@ public class ProductRestController {
 			@RequestParam(defaultValue = "5") int size, @RequestParam(defaultValue = "pid") String sortBy){
 		return product.findAllProductContainsParams(searchValue,pageNo, size, sortBy);
 	}
+	
+	// Filter Product by brand
+	@GetMapping("/brand")
+	public Page<Product> filterByBrands(@RequestParam(name = "id") Integer bid, @RequestParam(defaultValue = "0") int pageNo,
+			@RequestParam(defaultValue = "5") int size, @RequestParam(defaultValue = "pid") String sortBy){
+		return product.filterProductByBrand(bid, pageNo, size, sortBy);
+	}
 
 	//***********************//
 	//*     Add Product     *//

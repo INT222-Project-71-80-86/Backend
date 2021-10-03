@@ -60,6 +60,14 @@ public class ProductRestController {
 			@RequestParam(defaultValue = "5") int size, @RequestParam(defaultValue = "pid") String sortBy){
 		return product.filterProductByBrand(bid, pageNo, size, sortBy);
 	}
+	
+	// Filter Product by brand and categories
+	@GetMapping("/brandcat")
+	public Page<Product> filterProductByBrandAndCategory(@RequestParam(name = "bid") Integer bid, 
+			@RequestParam(name = "catid") Integer catid, @RequestParam(defaultValue = "0") int pageNo,
+			@RequestParam(defaultValue = "5") int size, @RequestParam(defaultValue = "pid") String sortBy){
+		return product.filterProductByBrandAndCategory(bid,catid,pageNo,size,sortBy);
+	}
 
 	@GetMapping("/cat")
 	public Page<Product> filterByCategory(@RequestParam(name = "id") Integer catid, @RequestParam(defaultValue = "0") int pageNo,

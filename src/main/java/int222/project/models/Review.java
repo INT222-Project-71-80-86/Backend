@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,5 +32,6 @@ public class Review implements Serializable {
 	@ManyToOne(optional = false)
     @MapsId("pid")
     @JoinColumn(name = "pid")
+	@JsonBackReference //For not making review trace to product because we only use review in product's page.
 	private Product product;
 }

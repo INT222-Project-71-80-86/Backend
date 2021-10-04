@@ -35,17 +35,22 @@ public class ReviewService {
 
 	// Add New review of a product
 	public Review addReviewofProduct(Review r) {
-		validateReview(r);
+		validateReview(r, false);
 		r.setReviewid(0); //Set rid to 0 to auto-incremented
 		return reviewRepo.saveAndFlush(r);
 	}
 	
 	// Edit review of a product
-//	public Review editReviewOfProduct(Review r) {
-//		validateReview(r);
-//	}
+	public Review editReviewOfProduct(Review r) {
+		validateReview(r, true);
+		return reviewRepo.saveAndFlush(r);
+	}
 	
-	public boolean validateReview(Review r) {
+	public boolean validateReview(Review r, boolean isEdit) {
+		if (isEdit) {
+			reviewRepo.findById(r.getReviewid()).orElseThrow(() -> new DataRelatedException(ERROR_CODE.ITEM_DOES_NOT_EXIST, 
+					"Can't find review of product with review id: "+r.getReviewid()));
+		}
 		if(r.getProduct().equals(null)) {
 			throw new DataRelatedException(ERROR_CODE.INVALID_ATTRIBUTE, "This review doesn't contain product.");
 		}

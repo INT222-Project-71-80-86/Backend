@@ -40,17 +40,22 @@ public class ReviewService {
 		return reviewRepo.saveAndFlush(r);
 	}
 	
+	// Edit review of a product
+//	public Review editReviewOfProduct(Review r) {
+//		validateReview(r);
+//	}
+	
 	public boolean validateReview(Review r) {
 		if(r.getProduct().equals(null)) {
 			throw new DataRelatedException(ERROR_CODE.INVALID_ATTRIBUTE, "This review doesn't contain product.");
 		}
 		prodRepo.findById(r.getProduct().getPid()).orElseThrow(() -> new DataRelatedException(ERROR_CODE.PRODUCT_DOESNT_FOUND, 
 				"Can't add review of product with product id: "+r.getProduct().getPid()+". Product doesn't found."));
-		if(r.getRating() <= 0 || r.getRating() >= 6) {
-			throw new DataRelatedException(ERROR_CODE.INVALID_ATTRIBUTE, "Wrong Rating values, should be Integer within range 1-5");
+		if(r.getRating() < 0 || r.getRating() >= 6) {
+			throw new DataRelatedException(ERROR_CODE.INVALID_ATTRIBUTE, "Wrong Rating values, should be Integer within range 0-5");
 		}
-		if(r.getReview().length() > 2000 || r.getReview().length() <= 0) {
-			throw new DataRelatedException(ERROR_CODE.INVALID_ATTRIBUTE, "Wrong Review length, should be within 1-2000 Characters");
+		if(r.getReview().length() > 200 || r.getReview().length() < 0) {
+			throw new DataRelatedException(ERROR_CODE.INVALID_ATTRIBUTE, "Wrong Review length, should be within 0-200 Characters");
 		}
 		return true;
 	}

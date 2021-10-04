@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import int222.project.exceptions.DataRelatedException;
 import int222.project.exceptions.ExceptionResponse.ERROR_CODE;
 import int222.project.models.Brand;
+import int222.project.models.Product;
 import int222.project.models.Review;
 import int222.project.repositories.BrandJpaRepository;
+import int222.project.repositories.ProductJpaRepository;
 import int222.project.repositories.ReviewJpaRepository;
 
 @Service
@@ -22,6 +24,8 @@ public class ReviewService {
 	// Repositories //
 	@Autowired
 	private ReviewJpaRepository reviewRepo;
+	@Autowired
+	private ProductJpaRepository prodRepo;
 
 	// Methods //
 	// Search all review for a product
@@ -29,16 +33,28 @@ public class ReviewService {
 		return reviewRepo.findReviewByProductPid(pid);
 	}
 
-//	// Search All Brand With Paging
-//	public Page<Brand> findAllProductWithPage(int pageNo, int size, String sortBy) {
-//		return brandRepo.findAll(PageRequest.of(pageNo, size, Sort.by(sortBy)));
-//	}
-
-//	// Add Brand
-//	public Brand addBrand(Brand brand) {
-//		checkBrandDuplicate(brand);
-//		return brandRepo.saveAndFlush(brand);
-//	}
+	// Add New review of a product
+	public Review addReviewofProduct(Review r) {
+		validateReview(r);
+		r.setReviewid(0); //Set rid to 0 to auto-incremented
+		return reviewRepo.saveAndFlush(r);
+	}
+	
+	public boolean validateReview(Review r) {
+		if(r.getProduct().equals(null)) {
+			throw new DataRelatedException(ERROR_CODE.INVALID_ATTRIBUTE, "This review doesn't contain product.");
+		}
+		prodRepo.findById(r.getProduct().getPid()).orElseThrow(() -> new DataRelatedException(ERROR_CODE.PRODUCT_DOESNT_FOUND, 
+				"Can't add review of product with product id: "+r.getProduct().getPid()+". Product doesn't found."));
+		if(r.getRating() <= 0 || r.getRating() >= 6) {
+			throw new DataRelatedException(ERROR_CODE.INVALID_ATTRIBUTE, "Wrong Rating values, should be Integer within range 1-5");
+		}
+		if(r.getReview().length() > 2000 || r.getReview().length() <= 0) {
+			throw new DataRelatedException(ERROR_CODE.INVALID_ATTRIBUTE, "Wrong Review length, should be within 1-2000 Characters");
+		}
+		return true;
+	}
+	
 //	
 //	// Edit Product
 //	public Brand editBrand(Brand brand) {

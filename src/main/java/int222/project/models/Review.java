@@ -3,6 +3,8 @@ package int222.project.models;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,14 +26,14 @@ public class Review implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer reviewid;
 	
 	private String review;
 	private Integer rating;
 	
 	@ManyToOne(optional = false)
-    @MapsId("pid")
     @JoinColumn(name = "pid")
-	@JsonBackReference //For not making review trace to product because we only use review in product's page.
+//	@JsonBackReference //For not making review trace to product because we only use review in product's page.
 	private Product product;
 }

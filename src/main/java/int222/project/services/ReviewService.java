@@ -46,6 +46,14 @@ public class ReviewService {
 		return reviewRepo.saveAndFlush(r);
 	}
 	
+	// Delete review
+	public Review deleteReviewOfProduct(Integer reviewid) {
+		Review r = reviewRepo.findById(reviewid).orElseThrow(() -> new DataRelatedException(ERROR_CODE.ITEM_ALREADY_EXIST, 
+				"Review id: "+reviewid+" does not found."));
+		reviewRepo.deleteById(reviewid);
+		return r;
+	}
+	
 	public boolean validateReview(Review r, boolean isEdit) {
 		if (isEdit) {
 			reviewRepo.findById(r.getReviewid()).orElseThrow(() -> new DataRelatedException(ERROR_CODE.ITEM_DOES_NOT_EXIST, 

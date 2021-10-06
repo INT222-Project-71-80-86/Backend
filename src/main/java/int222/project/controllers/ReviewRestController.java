@@ -3,6 +3,7 @@ package int222.project.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,4 +36,10 @@ public class ReviewRestController {
 	public Review editReview(@RequestBody Review r) {
 		return review.editReviewOfProduct(r);
 	}
+	
+	@DeleteMapping("/delete/{reviewid}")
+	public Review deleteReview(@PathVariable Integer reviewid) {
+		return review.deleteReviewOfProduct(reviewid);
+	}
+	
 }

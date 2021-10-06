@@ -3,9 +3,6 @@ package int222.project.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import int222.project.exceptions.DataRelatedException;
@@ -33,27 +30,30 @@ public class BrandService {
 		return brandRepo.findAll();
 	}
 
-//	// Search All Brand With Paging
-//	public Page<Brand> findAllProductWithPage(int pageNo, int size, String sortBy) {
-//		return brandRepo.findAll(PageRequest.of(pageNo, size, Sort.by(sortBy)));
-//	}
-
 	// Add Brand
 	public Brand addBrand(Brand brand) {
-		checkBrandDuplicate(brand);
+		validateBrand(brand);
 		return brandRepo.saveAndFlush(brand);
 	}
 	
 	// Edit Product
 	public Brand editBrand(Brand brand) {
-		checkBrandDuplicate(brand);
+		validateBrand(brand);
 		return brandRepo.saveAndFlush(brand);
 	}
 	
-	private void checkBrandDuplicate(Brand brand) {
+	private void validateBrand(Brand brand) {
 		if(!brandRepo.findByName(brand.getName()).isEmpty()) {
 			throw new DataRelatedException(ERROR_CODE.BRAND_ALREADY_EXIST, "Brand with this name: "+brand.getName()+" is already exist.");
 		}
 	}
+	
+	// Delete Brand
+ 	public Brand deleteBrand(Integer bid) {
+ 		Brand b = brandRepo.findById(bid).orElseThrow(() -> new DataRelatedException(ERROR_CODE.BRAND_DOESNT_FOUND, 
+ 				"Brand with id: "+bid+" doesn't found"));
+ 		brandRepo.delete(b);
+ 		return b;
+ 	}
 
 }

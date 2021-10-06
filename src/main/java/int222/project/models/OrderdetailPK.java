@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 @Embeddable
 public class OrderdetailPK implements Serializable {
 	

@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import int222.project.exceptions.DataRelatedException;
-import int222.project.exceptions.ExceptionResponse.ERROR_CODE;
 import int222.project.models.Color;
-import int222.project.repositories.ColorJpaRepository;
 import int222.project.services.ColorService;
 
 @RequestMapping(path = "/api/color")

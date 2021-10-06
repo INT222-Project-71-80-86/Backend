@@ -34,6 +34,6 @@ public class Review implements Serializable {
 	
 	@ManyToOne(optional = false)
     @JoinColumn(name = "pid")
-//	@JsonBackReference //For not making review trace to product because we only use review in product's page.
+	@JsonBackReference //For not making review trace to product because we only use review in product's page.
 	private Product product;
 }

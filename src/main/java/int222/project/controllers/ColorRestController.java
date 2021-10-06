@@ -3,6 +3,7 @@ package int222.project.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +47,14 @@ public class ColorRestController {
 	public Color editColor(@RequestBody Color color) {
 		return colorservice.editColor(color);
 	}
+	
+	// Delete Color (Not used yet)
+	/*
+	@DeleteMapping("/delete/{cid}")
+	public Color deleteColor(@PathVariable Integer cid) {
+		return colorservice.deleteColor(cid);
+	}
+	*/
 	
 
 }

@@ -33,28 +33,36 @@ public class ColorService {
 		return colorRepo.findAll();
 	}
 
-//	// Search All Color With Paging
-//	public Page<Color> findAllProductWithPage(int pageNo, int size, String sortBy) {
-//		return colorRepo.findAll(PageRequest.of(pageNo, size, Sort.by(sortBy)));
-//	}
-
 	// Add Color
 	public Color addColor(Color color) {
-		checkColorDuplicate(color);
+		validateColor(color);
 		return colorRepo.saveAndFlush(color);
 	}
 	
 	// Edit Product
 	public Color editColor(Color color) {
-		checkColorDuplicate(color);
+		validateColor(color);
 		return colorRepo.saveAndFlush(color);
 	}
 	
-	private void checkColorDuplicate(Color color) {
+	private void validateColor(Color color) {
 		if(!colorRepo.findByNameOrCode(color.getName(),color.getCode()).isEmpty()) {
 			throw new DataRelatedException(ERROR_CODE.COLOR_ALREADY_EXIST, "Color with this name: "
 		+ color.getName()+" or this code:" + color.getCode() + " is already exist.");
 		}
+		String message = "";
+		if(color.getCode().length() != 7 || color.getName().length() > 200) {
+			throw new DataRelatedException(ERROR_CODE.INVALID_ATTRIBUTE, 
+					"Invalid attribute. Color code should be in form of '#XXXXXX' and it name length must not has more than 200 characters");
+		}
 	}
-
+	
+	// Delete Color
+ 	public Color deleteColor(Integer cid) {
+ 		Color c = colorRepo.findById(cid).orElseThrow(() -> new DataRelatedException(ERROR_CODE.COLOR_DOESNT_FOUND, 
+ 				"Color with id: "+cid+" doesn't found"));
+ 		colorRepo.delete(c);
+ 		return c;
+ 	}
+ 
 }

@@ -93,15 +93,19 @@ public class ProductService {
 			throw new DataRelatedException(ERROR_CODE.PRODUCT_DOESNT_FOUND,
 					"Product with code: " + product.getPid() + " does not exists.");
 		}
+		boolean addNew = false;
 		// If send photo add new. If not just use old.
 		if (photo != null) {
 			String photoname = file.save(photo);
 			product.setImage(photoname);
+			addNew = true;
 		} else {
-			product.setImage(oldProd.getImage());
+			product.setImage(oldProd.getImage()); 
 		}
-		validateAttribute(product);
-		file.deleteOne(oldProd.getImage()); // If Validate Succesfully Remove old image
+		validateAttributeEdit(product, oldProd, addNew);
+		if (photo != null) {
+			file.deleteOne(oldProd.getImage()); // If Validate Succesfully Remove old image
+		}
 		addPrimaryKey(product);
 		pcRepo.removeByIdPid(product.getPid());
 		return prodRepo.saveAndFlush(product);
@@ -127,11 +131,38 @@ public class ProductService {
 	// For validating product [ validating productcolor because it can save when no productcolor is present 
 	// and image because adding new random string to make it distinct 
 	private void validateAttribute(Product product) {
+		List<Product> testProd = prodRepo.findProductByName(product.getName());
+		if (!testProd.isEmpty()) {
+			file.deleteOne(product.getImage());
+			throw new DataRelatedException(ERROR_CODE.PRODUCT_ALREADY_EXIST, "Product with this name is already exists.");
+		}
 		if (product.getProductcolor().isEmpty()) {
 			file.deleteOne(product.getImage());
 			throw new DataRelatedException(ERROR_CODE.COLOR_DOESNT_FOUND, "Product does not contain any color!");
 		} else if (product.getImage().length() > 200) {
 			file.deleteOne(product.getImage());
+			throw new DataRelatedException(ERROR_CODE.INVALID_PRODUCT_ATTRIBUTE, "File name is too long!");
+		}
+	}
+	
+	private void validateAttributeEdit(Product product, Product oldProd, boolean addNew) {
+		// Validate if product name is duplicated for edit and not edit
+		List<Product> testProd = prodRepo.findProductByNameExcludedPid(product.getName(), product.getPid());
+		if (!testProd.isEmpty()) {
+			if (addNew) {
+				file.deleteOne(product.getImage());
+			}
+			throw new DataRelatedException(ERROR_CODE.PRODUCT_ALREADY_EXIST, "Product with this name is already exists.");
+		}
+		if (product.getProductcolor().isEmpty()) {
+			if (addNew) {
+				file.deleteOne(product.getImage());
+			}
+			throw new DataRelatedException(ERROR_CODE.COLOR_DOESNT_FOUND, "Product does not contain any color!");
+		} else if (product.getImage().length() > 200) {
+			if (addNew) {
+				file.deleteOne(product.getImage());
+			}
 			throw new DataRelatedException(ERROR_CODE.INVALID_PRODUCT_ATTRIBUTE, "File name is too long!");
 		}
 	}

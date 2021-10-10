@@ -18,14 +18,13 @@ import int222.project.exceptions.DataRelatedException;
 import int222.project.exceptions.ExceptionResponse.ERROR_CODE;
 import int222.project.models.Users;
 import int222.project.repositories.UserJpaRepository;
+import lombok.RequiredArgsConstructor;
 
-@Service
+@Service @RequiredArgsConstructor 
 public class MyUserServices implements UserDetailsService {
 	
-	@Autowired
-	private UserJpaRepository userRepo;
-	private PasswordEncoder passwordEncoder;
-
+	private final UserJpaRepository userRepo;
+	private final PasswordEncoder passwordEncoder;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

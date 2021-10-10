@@ -46,12 +46,12 @@ public class ColorRestController {
 	}
 	
 	// Delete Color (Not used yet)
-	/*
+	
 	@DeleteMapping("/delete/{cid}")
 	public Color deleteColor(@PathVariable Integer cid) {
-		return colorservice.deleteColor(cid);
+		return colorservice.deleteColorV2(cid);
 	}
-	*/
+	
 	
 
 }

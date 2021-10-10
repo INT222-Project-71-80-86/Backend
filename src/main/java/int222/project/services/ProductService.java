@@ -40,6 +40,9 @@ public class ProductService {
 	public Product findProductById(int pid) {
 		Product p = prodRepo.findById(pid).orElseThrow(() -> new DataRelatedException(ERROR_CODE.PRODUCT_DOESNT_FOUND,
 				"Product number " + pid + " does not exist."));
+//		if(p.getDeleted() == 1) {
+//			throw new DataRelatedException(ERROR_CODE.ITEM_DELETED, "Product number " + pid + " is deleted.");
+//		}
 		return p;
 	}
 
@@ -50,7 +53,7 @@ public class ProductService {
 
 	// Search All Product With Paging
 	public Page<Product> findAllProductWithPage(int pageNo, int size, String sortBy) {
-		return prodRepo.findAll(PageRequest.of(pageNo, size, Sort.by(sortBy)));
+		return prodRepo.findAllProducts(PageRequest.of(pageNo, size, Sort.by(sortBy)));
 	}
 	
 	//Search Product with search filter (from text box)
@@ -89,7 +92,7 @@ public class ProductService {
 	// Edit Product
 	public Product editProduct(MultipartFile photo, Product product) {
 		Product oldProd = prodRepo.findById(product.getPid()).orElse(null);
-		if (oldProd == null) {
+		if (oldProd == null || oldProd.getDeleted() == 1) {
 			throw new DataRelatedException(ERROR_CODE.PRODUCT_DOESNT_FOUND,
 					"Product with code: " + product.getPid() + " does not exists.");
 		}
@@ -111,13 +114,20 @@ public class ProductService {
 		return prodRepo.saveAndFlush(product);
 	}
 
-	// Remove product
+	// Remove product V1 (Delete Product)
 	public Product removeProducts(Integer pid) {
 		Product delProd = prodRepo.findById(pid).orElseThrow(() -> new DataRelatedException(ERROR_CODE.PRODUCT_DOESNT_FOUND,
 				"Cannot find product with productcode: " + pid));
 		prodRepo.deleteById(pid);
 		file.deleteOne(delProd.getImage());
 		return delProd;
+	}
+	// Remove Product V2 (Fake Delete Product)
+	public Product removeProductsV2(Integer pid) {
+		Product delProd = prodRepo.findById(pid).orElseThrow(() -> new DataRelatedException(ERROR_CODE.PRODUCT_DOESNT_FOUND,
+				"Cannot find product with productcode: " + pid));
+		delProd.setDeleted(1);
+		return prodRepo.save(delProd);
 	}
 
 	// Add ProductColor's Color Primary Key

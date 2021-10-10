@@ -97,7 +97,7 @@ public class ProductRestController {
 	//**************************//
 	@DeleteMapping("/delete/{pid}")
 	public Product removeProduct(@PathVariable Integer pid) {
-		return this.product.removeProducts(pid);
+		return this.product.removeProductsV2(pid);
 	}
 	
 	//*****************************//

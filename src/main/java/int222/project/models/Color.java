@@ -31,5 +31,7 @@ public class Color implements Serializable {
 	private String name;
 	
 	private String code;
+	
+	private Integer deleted;
 
 }

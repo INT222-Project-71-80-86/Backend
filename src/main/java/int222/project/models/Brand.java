@@ -29,6 +29,7 @@ public class Brand implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer bid;
 	private String name;
+	private Integer deleted;
 
 
 }

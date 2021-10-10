@@ -38,10 +38,10 @@ public class Orderdetail implements Serializable {
     private Orders order;
 
     @ManyToOne(optional = false)
-    @MapsId("pid")
-    @JoinColumn(name = "pid")
+    @MapsId("id")
+    @JoinColumn(name = "id")
     @JsonBackReference
-	private Product product;
+	private Productcolor productcolor;
 
 
 }

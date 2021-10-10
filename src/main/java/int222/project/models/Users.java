@@ -44,10 +44,9 @@ public class Users implements Serializable{
     private String address;
     private String email;
     private String tel;
-    private Integer usertype;
-    
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Authentication auth;
+    private String role;
+    private String password;
+    private String salt;
+    private Integer deleted;
     
 }

@@ -19,7 +19,7 @@ public class OrderdetailPK implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	private Integer pid;
+	private ProductcolorPK productcolor;
 
 	private Integer oid;
 

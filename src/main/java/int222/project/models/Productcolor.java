@@ -32,6 +32,8 @@ public class Productcolor implements Serializable {
 
 	@EmbeddedId
 	private ProductcolorPK id;
+	
+	private Integer amount;
 
 	@ManyToOne(optional = false)
     @MapsId("cid")
@@ -43,5 +45,6 @@ public class Productcolor implements Serializable {
     @JoinColumn(name = "pid")
     @JsonBackReference
 	private Product product;
+    
 
 }

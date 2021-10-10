@@ -32,7 +32,6 @@ public class Product implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer pid;
-	private Integer amount;
 	private String description;
 	private String image;
 	private String name;
@@ -42,6 +41,7 @@ public class Product implements Serializable {
 	@Column(name="release_date")
 	private Date releaseDate;
     private Integer warranty;
+    private Integer deleted;
     
     @ManyToOne
     @JoinColumn(name = "bid", referencedColumnName = "bid")

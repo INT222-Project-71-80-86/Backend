@@ -6,4 +6,6 @@ import int222.project.models.Users;
 
 public interface UserJpaRepository extends JpaRepository<Users, Integer> {
 	
+	Users findByUsername(String username);
+	
 }

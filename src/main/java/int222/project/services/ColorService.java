@@ -72,9 +72,14 @@ public class ColorService {
 			throw new DataRelatedException(ERROR_CODE.COLOR_ALREADY_EXIST, "Color with this name: "
 		+ color.getName()+" or this code:" + color.getCode() + " is already exist.");
 		}
-		if(color.getCode().length() != 7 || color.getName().length() > 200) {
+		Matcher matcher = pattern.matcher(color.getCode());
+		if(!matcher.matches()) {
 			throw new DataRelatedException(ERROR_CODE.INVALID_ATTRIBUTE, 
-					"Invalid attribute. Color code should be in form of '#XXXXXX' and it name length must not has more than 200 characters");
+					"Color code should be in form of '#XXXXXX' while each X is 0-9 or A-F");
+		}
+		if(color.getName().length() > 200) {
+			throw new DataRelatedException(ERROR_CODE.INVALID_ATTRIBUTE, 
+					"Color name length must not has more than 200 characters");
 		}
 	}
 	

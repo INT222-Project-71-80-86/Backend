@@ -26,7 +26,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@JsonIgnoreProperties(value = {"id"})
+//@JsonIgnoreProperties(value = {"id"})
 public class Productcolor implements Serializable {
 	private static final long serialVersionUID = 1L;
 

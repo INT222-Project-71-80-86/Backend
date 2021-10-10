@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 
@@ -39,7 +40,10 @@ public class Orderdetail implements Serializable {
 
     @ManyToOne(optional = false)
     @MapsId("id")
-    @JoinColumn(name = "id")
+    @JoinColumns({
+    	@JoinColumn(name = "pid"),
+    	@JoinColumn(name = "cid")
+    })
     @JsonBackReference
 	private Productcolor productcolor;
 

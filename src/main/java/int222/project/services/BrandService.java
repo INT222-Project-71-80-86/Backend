@@ -42,12 +42,18 @@ public class BrandService {
 		if(tempBrand == null || tempBrand.getDeleted() == 1) {
 			throw new DataRelatedException(ERROR_CODE.BRAND_DOESNT_FOUND, "Does not found brand with id: "+brand.getBid());
 		}
-		validateBrand(brand);
+		validateEditBrand(brand);
 		return brandRepo.saveAndFlush(brand);
 	}
 	
 	private void validateBrand(Brand brand) {
 		if(!brandRepo.findByName(brand.getName()).isEmpty()) {
+			throw new DataRelatedException(ERROR_CODE.BRAND_ALREADY_EXIST, "Brand with this name: "+brand.getName()+" is already exist.");
+		}
+	}
+	
+	private void validateEditBrand(Brand brand) {
+		if(!brandRepo.findByOtherName(brand.getName(), brand.getBid()).isEmpty()) {
 			throw new DataRelatedException(ERROR_CODE.BRAND_ALREADY_EXIST, "Brand with this name: "+brand.getName()+" is already exist.");
 		}
 	}

@@ -12,6 +12,9 @@ public interface BrandJpaRepository extends JpaRepository<Brand, Integer>{
 	@Query("SELECT b from Brand b WHERE b.name = ?1 AND b.deleted = 0")
 	List<Brand> findByName(String name);
 	
+	@Query("SELECT b from Brand b WHERE b.name = ?1 AND b.bid != ?1 AND b.deleted = 0")
+	List<Brand> findByOtherName(String name, Integer bid);
+	
 	@Query("SELECT b FROM Brand b WHERE b.deleted = 0")
 	List<Brand> findAllBrands();
 }

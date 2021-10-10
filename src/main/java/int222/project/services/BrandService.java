@@ -27,7 +27,7 @@ public class BrandService {
 
 	// Get all brands 
 	public List<Brand> findAllBrands() {
-		return brandRepo.findAll();
+		return brandRepo.findAllBrands();
 	}
 
 	// Add Brand
@@ -38,6 +38,10 @@ public class BrandService {
 	
 	// Edit Product
 	public Brand editBrand(Brand brand) {
+		Brand tempBrand = brandRepo.findById(brand.getBid()).orElse(null);
+		if(tempBrand == null || tempBrand.getDeleted() == 1) {
+			throw new DataRelatedException(ERROR_CODE.BRAND_DOESNT_FOUND, "Does not found brand with id: "+brand.getBid());
+		}
 		validateBrand(brand);
 		return brandRepo.saveAndFlush(brand);
 	}
@@ -54,6 +58,13 @@ public class BrandService {
  				"Brand with id: "+bid+" doesn't found"));
  		brandRepo.delete(b);
  		return b;
+ 	}
+ 	// Delete Brand V2
+ 	public Brand deleteBrandV2(Integer bid) {
+ 		Brand b = brandRepo.findById(bid).orElseThrow(() -> new DataRelatedException(ERROR_CODE.BRAND_DOESNT_FOUND, 
+ 				"Brand with id: "+bid+" doesn't found"));
+ 		b.setDeleted(1);
+ 		return brandRepo.save(b);
  	}
 
 }

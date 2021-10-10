@@ -46,12 +46,12 @@ public class BrandRestController {
 	}
 	
 	// Delete Brand (Not used yet)
-	/*
+	
 	@DeleteMapping("/delete/{bid}")
 	public Brand deleteBrand(@PathVariable Integer bid) {
-		return brandservice.deleteBrand(bid);
+		return brandservice.deleteBrandV2(bid);
 	}
-	*/
+	
 
 	
 

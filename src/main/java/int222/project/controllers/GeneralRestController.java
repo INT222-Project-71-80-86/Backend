@@ -20,28 +20,8 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import int222.project.exceptions.DataRelatedException;
 import int222.project.exceptions.ExceptionResponse.ERROR_CODE;
 import int222.project.files.FileInfo;
-import int222.project.models.Authentication;
-import int222.project.models.Brand;
-import int222.project.models.Category;
-import int222.project.models.Color;
-import int222.project.models.Coupon;
-import int222.project.models.Orders;
-import int222.project.models.Orderdetail;
-import int222.project.models.Product;
-import int222.project.models.Productcolor;
-import int222.project.models.Review;
-import int222.project.models.Users;
-import int222.project.repositories.AuthenticationJpaRepository;
-import int222.project.repositories.BrandJpaRepository;
-import int222.project.repositories.CategoryJpaRepository;
-import int222.project.repositories.ColorJpaRepository;
-import int222.project.repositories.CouponJpaRepository;
-import int222.project.repositories.OrderJpaRepository;
-import int222.project.repositories.OrderdetailJpaRepository;
-import int222.project.repositories.ProdColorJpaRepository;
-import int222.project.repositories.ProductJpaRepository;
-import int222.project.repositories.ReviewJpaRepository;
-import int222.project.repositories.UserJpaRepository;
+import int222.project.models.*;
+import int222.project.repositories.*;
 import int222.project.services.FileStoreServiceImp;
 import int222.project.services.FileStoreServices;
 
@@ -58,8 +38,6 @@ public class GeneralRestController {
 	ColorJpaRepository colorRepo;
 	@Autowired
 	UserJpaRepository userRepo;
-	@Autowired
-	AuthenticationJpaRepository authRepo;
 	@Autowired
 	CouponJpaRepository couRepo;
 	@Autowired
@@ -95,11 +73,6 @@ public class GeneralRestController {
 	@GetMapping("/api/users")
 	public List<Users> getUser(){
 		return userRepo.findAll();
-	}
-	
-	@GetMapping("/api/auths")
-	public List<Authentication> getAuth() {
-		return authRepo.findAll();
 	}
 	
 	@GetMapping("/api/coupons")

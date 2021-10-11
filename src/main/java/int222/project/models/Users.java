@@ -46,7 +46,6 @@ public class Users implements Serializable{
     private String tel;
     private String role;
     private String password;
-    private String salt;
     private Integer deleted;
     
 }

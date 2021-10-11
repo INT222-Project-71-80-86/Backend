@@ -36,11 +36,19 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @Slf4j
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
-	@Value("${jwt.token.secret}")private String secret;
+	private final String secret;
+
+	public CustomAuthorizationFilter(String secret) {
+		this.secret = secret;
+	}
 	
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if(request.getServletPath().equals("/api/login") || request.getServletPath().equals("/api/token/refresh")) {
+        if(request.getServletPath().equals("/api/login") || request.getServletPath().equals("/api/token/refresh")
+        		|| ( (request.getServletPath().contains("/api/product") || request.getServletPath().contains("/api/brand")
+        				|| request.getServletPath().contains("/api/color") || request.getServletPath().contains("/api/review/")
+        				|| request.getServletPath().contains("/api/cats") || request.getServletPath().contains("/api/file/") ) 
+        				&& request.getMethod().equals("GET") ) ) {
             filterChain.doFilter(request, response);
         } else {
             String authorizationHeader = request.getHeader(AUTHORIZATION);

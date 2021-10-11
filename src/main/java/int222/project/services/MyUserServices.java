@@ -3,9 +3,10 @@ package int222.project.services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,12 +40,14 @@ public class MyUserServices implements UserDetailsService {
 	}
 	
 	public Users addUser(Users user) {
+		validateAddUser(user);
 		user.setPassword( passwordEncoder.encode(user.getPassword()) );
 		user.setRole("ROLE_CUSTOMER");
 		return userRepo.save(user);
 	}
 	
 	public Users editUser(Users user) {
+		validateEditUser(user);
 		return userRepo.save(user);
 	}
 	
@@ -56,10 +59,25 @@ public class MyUserServices implements UserDetailsService {
 		return userRepo.findAll();
 	}
 	
+	public Page<Users> gettAllUsersPaging(int pageNo, int size, String sortBy) {
+		return userRepo.findAll(PageRequest.of(pageNo, size, Sort.by(sortBy)));
+	}
+	
 	public Users deleteUser(Integer uid) {
-		Users user = userRepo.findById(uid).orElseThrow(() -> new DataRelatedException(ERROR_CODE.ITEM_DOES_NOT_EXIST, "User does not found."));
+		Users user = userRepo.findById(uid).orElseThrow(() -> new DataRelatedException(ERROR_CODE.USER_DOESNT_FOUND, "User does not found."));
 		user.setDeleted(1);
 		return userRepo.save(user);
+	}
+	
+	private void validateAddUser(Users user) {
+		Users tempUser = userRepo.findByUsername(user.getUsername());
+		if(tempUser != null) {
+			throw new DataRelatedException(ERROR_CODE.USER_ALREADY_EXIST, "This username has been used.");
+		}
+	}
+	
+	private void validateEditUser(Users user) {
+		Users tempUser = userRepo.findById(user.getUid()).orElseThrow(() -> new DataRelatedException(ERROR_CODE.USER_DOESNT_FOUND, "User with user id "+user.getUid()+" does not found."));
 	}
 
 }

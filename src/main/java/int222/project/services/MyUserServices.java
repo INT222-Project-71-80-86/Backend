@@ -59,7 +59,7 @@ public class MyUserServices implements UserDetailsService {
 		return userRepo.findAll();
 	}
 	
-	public Page<Users> gettAllUsersPaging(int pageNo, int size, String sortBy) {
+	public Page<Users> getAllUsersPaging(int pageNo, int size, String sortBy) {
 		return userRepo.findAll(PageRequest.of(pageNo, size, Sort.by(sortBy)));
 	}
 	

@@ -29,7 +29,7 @@ public class UserRestController {
 	@GetMapping("/allusers")
 	public Page<Users> getAllUsers(@RequestParam(defaultValue = "0") int pageNo, @RequestParam(defaultValue = "10") int size, 
 			@RequestParam(defaultValue = "uid") String sortBy) {
-		return userService.gettAllUsersPaging(pageNo, size, sortBy);
+		return userService.getAllUsersPaging(pageNo, size, sortBy);
 	}
 	
 	@GetMapping("/get/{username}")

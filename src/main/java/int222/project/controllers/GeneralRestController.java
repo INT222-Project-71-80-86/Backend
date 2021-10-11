@@ -69,12 +69,7 @@ public class GeneralRestController {
 //	public List<Color> getColors() {
 //		return colorRepo.findAll();
 //	}
-	
-	@GetMapping("/api/users")
-	public List<Users> getUser(){
-		return userRepo.findAll();
-	}
-	
+
 	@GetMapping("/api/coupons")
 	public List<Coupon> getCoupon() {
 		return couRepo.findAll();

@@ -39,12 +39,8 @@ public class MyUserServices implements UserDetailsService {
 	}
 	
 	public Users addUser(Users user) {
-		String salt = UUID.randomUUID().toString().replaceAll("-", "").substring(0,32);
-		user.setSalt(salt);
-		String temp = user.getPassword() + salt;
-		user.setPassword( passwordEncoder.encode(temp) );
-		user.setRole("ROLE_USER");
-		temp = "";
+		user.setPassword( passwordEncoder.encode(user.getPassword()) );
+		user.setRole("ROLE_CUSTOMER");
 		return userRepo.save(user);
 	}
 	

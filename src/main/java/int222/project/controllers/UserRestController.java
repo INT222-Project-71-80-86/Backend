@@ -1,5 +1,10 @@
 package int222.project.controllers;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,5 +41,10 @@ public class UserRestController {
 	public Users getUserByUsername(@PathVariable String username) {
 		return userService.getUser(username);
 	}
+	
+	 @GetMapping("/token/refresh")
+	    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		 userService.refreshToken(request, response);
+	 }
 
 }

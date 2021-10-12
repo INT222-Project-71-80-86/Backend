@@ -102,7 +102,7 @@ public class MyUserServices implements UserDetailsService {
                 strings.add(user.getRole());
                 String access_token = JWT.create()
                         .withSubject(user.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 5 * 1000))
+                        .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000 ))
                         .withIssuer(request.getRequestURL().toString())
                         .withClaim("roles", strings)
                         .sign(algorithm);

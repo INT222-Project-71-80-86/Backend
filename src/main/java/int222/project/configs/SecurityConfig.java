@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/something").hasAnyAuthority("ROLE_STAFF");
 		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/review/save").hasAnyAuthority("ROLE_CUSTOMER");
 		/* ----------------------PUT--------------------- */
-		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/brand/edit", "/api/color/edit").hasAnyAuthority("ROLE_ADMIN");
+		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/brand/edit", "/api/color/edit", "/api/user/edit").hasAnyAuthority("ROLE_ADMIN");
 		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/product/edit").hasAnyAuthority("ROLE_STAFF","ROLE_ADMIN");
 		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/something").hasAnyAuthority("ROLE_STAFF");
 		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/review/edit").hasAnyAuthority("ROLE_CUSTOMER");

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,8 +28,12 @@ public class UserRestController {
 	
 	@PostMapping("/save")
 	public Users saveUser(@RequestBody Users user) {
-		System.out.println(user);
 		return userService.addUser(user);
+	}
+	
+	@PutMapping("/edit")
+	public Users editUser(@RequestBody Users user) {
+		return userService.editUser(user);
 	}
 	
 	@GetMapping("/allusers")

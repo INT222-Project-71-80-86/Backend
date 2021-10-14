@@ -36,7 +36,6 @@ public class ReviewService {
 	// Add New review of a product
 	public Review addReviewofProduct(Review r) {
 		validateReview(r, false);
-		r.setReviewid(0); //Set rid to 0 to auto-incremented
 		return reviewRepo.saveAndFlush(r);
 	}
 	
@@ -47,17 +46,17 @@ public class ReviewService {
 	}
 	
 	// Delete review
-	public Review deleteReviewOfProduct(Integer reviewid) {
-		Review r = reviewRepo.findById(reviewid).orElseThrow(() -> new DataRelatedException(ERROR_CODE.ITEM_ALREADY_EXIST, 
-				"Review id: "+reviewid+" does not found."));
-		reviewRepo.deleteById(reviewid);
-		return r;
-	}
+//	public Review deleteReviewOfProduct(Integer reviewid) {
+//		Review r = reviewRepo.findById(reviewid).orElseThrow(() -> new DataRelatedException(ERROR_CODE.ITEM_ALREADY_EXIST, 
+//				"Review id: "+reviewid+" does not found."));
+//		reviewRepo.deleteById(reviewid);
+//		return r;
+//	}
 	
 	public boolean validateReview(Review r, boolean isEdit) {
 		if (isEdit) {
-			reviewRepo.findById(r.getReviewid()).orElseThrow(() -> new DataRelatedException(ERROR_CODE.ITEM_DOES_NOT_EXIST, 
-					"Can't find review of product with review id: "+r.getReviewid()));
+			reviewRepo.findById(r.getId()).orElseThrow(() -> new DataRelatedException(ERROR_CODE.ITEM_DOES_NOT_EXIST, 
+					"Can't find review of product: "+r.getId().getPid()+" with user id: "+r.getId().getUid()));
 		}
 		if(r.getProduct().equals(null)) {
 			throw new DataRelatedException(ERROR_CODE.INVALID_ATTRIBUTE, "This review doesn't contain product.");

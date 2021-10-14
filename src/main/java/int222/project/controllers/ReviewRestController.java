@@ -37,9 +37,9 @@ public class ReviewRestController {
 		return review.editReviewOfProduct(r);
 	}
 	
-	@DeleteMapping("/delete/{reviewid}")
-	public Review deleteReview(@PathVariable Integer reviewid) {
-		return review.deleteReviewOfProduct(reviewid);
-	}
+//	@DeleteMapping("/delete/{reviewid}")
+//	public Review deleteReview(@PathVariable Integer reviewid) {
+//		return review.deleteReviewOfProduct(reviewid);
+//	}
 	
 }

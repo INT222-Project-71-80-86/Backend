@@ -2,12 +2,16 @@ package int222.project.models;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -28,6 +32,8 @@ public class Orders implements Serializable {
 	private Integer oid;
 	
 	private BigDecimal totalprice;
+	@Temporal(TemporalType.DATE)
+	private Date date;
 	
 	@ManyToOne(optional = false)
     @MapsId("uid")
@@ -35,4 +41,7 @@ public class Orders implements Serializable {
     @JsonBackReference
 	private Users user;
 	
+	@ManyToOne
+	@JoinColumn(name = "couponcode", referencedColumnName = "couponcode")
+	private Coupon coupon;	
 }

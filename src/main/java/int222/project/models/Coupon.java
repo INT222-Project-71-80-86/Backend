@@ -31,5 +31,9 @@ public class Coupon implements Serializable {
 	private Integer ispercent;
 	private String name;
 	private BigDecimal value;
+	
+	private Integer maxusage;
+	private BigDecimal maxdiscount;
+	private BigDecimal minprice;
 
 }

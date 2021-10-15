@@ -47,6 +47,11 @@ public class UserRestController {
 		return userService.getUser(username);
 	}
 	
+	@PutMapping("/roleedit")
+	public Users editUserRole(@RequestBody Users user) {
+		return userService.changeRole(user);
+	}
+	
 	 @GetMapping("/token/refresh")
 	    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		 userService.refreshToken(request, response);

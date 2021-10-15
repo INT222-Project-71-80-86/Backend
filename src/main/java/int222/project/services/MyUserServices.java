@@ -66,11 +66,16 @@ public class MyUserServices implements UserDetailsService {
 	}
 	
 	public Users editUser(Users user) {
-		validateEditUser(user);
+		validateEditUser(user, false);
 		user.setPassword( passwordEncoder.encode(user.getPassword()) );
 		return userRepo.save(user);
 	}
 	
+	public Users changeRole(Users user) {
+		validateEditUser(user, true);
+		return userRepo.save(user);
+	}
+
 	public Users getUser(String username) {
 		return userRepo.findByUsername(username);
 	}
@@ -131,16 +136,26 @@ public class MyUserServices implements UserDetailsService {
 		if(tempUser != null) {
 			throw new DataRelatedException(ERROR_CODE.USER_ALREADY_EXIST, "This username has been used.");
 		}
+		if( !(user.getRole().equals("ROLE_CUSTOMER") || user.getRole().equals("ROLE_STAFF") || user.getRole().equals("ROLE_ADMIN")) ) {
+			throw new DataRelatedException(ERROR_CODE.INVALID_ATTRIBUTE, "Roles must be ROLE_CUSTOMER, ROLE_STAFF, or ROLE_ADMIN");
+		}
 	}
 	
-	private void validateEditUser(Users user) {
-		Users tempUser = userRepo.findById(user.getUid()).orElseThrow(() -> new DataRelatedException(ERROR_CODE.USER_DOESNT_FOUND, "User with user id "+user.getUid()+" does not found."));
+	private void validateEditUser(Users user, boolean isRoleEdit) {
+		Users tempUser = userRepo.findById(user.getUid()).orElseThrow(() -> 
+			new DataRelatedException(ERROR_CODE.USER_DOESNT_FOUND, "User with user id "+user.getUid()+" does not found."));
 		if(!user.getUsername().equals(tempUser.getUsername())) {
 			throw new DataRelatedException(ERROR_CODE.INVALID_ATTRIBUTE, "Username cannot be changed");
 		}
 		if( !(user.getRole().equals("ROLE_CUSTOMER") || user.getRole().equals("ROLE_STAFF") || user.getRole().equals("ROLE_ADMIN")) ) {
 			throw new DataRelatedException(ERROR_CODE.INVALID_ATTRIBUTE, "Roles must be ROLE_CUSTOMER, ROLE_STAFF, or ROLE_ADMIN");
+		} 
+		if(!isRoleEdit) {
+			if(!user.getRole().equals(tempUser.getRole())) {
+				throw new DataRelatedException(ERROR_CODE.INVALID_ATTRIBUTE, "You cannot change your role!");
+			}
 		}
+		
 	}
 	
 	

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import int222.project.models.Review;
+import int222.project.models.ReviewPK;
 import int222.project.services.ReviewService;
 
 @RequestMapping("/api/review")
@@ -37,9 +38,9 @@ public class ReviewRestController {
 		return review.editReviewOfProduct(r);
 	}
 	
-//	@DeleteMapping("/delete/{reviewid}")
-//	public Review deleteReview(@PathVariable Integer reviewid) {
-//		return review.deleteReviewOfProduct(reviewid);
-//	}
+	@DeleteMapping("/delete")
+	public Review deleteReview(@RequestBody ReviewPK id) {
+		return review.deleteReviewOfProduct(id);
+	}
 	
 }

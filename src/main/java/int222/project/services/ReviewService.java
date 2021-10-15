@@ -13,6 +13,7 @@ import int222.project.exceptions.ExceptionResponse.ERROR_CODE;
 import int222.project.models.Brand;
 import int222.project.models.Product;
 import int222.project.models.Review;
+import int222.project.models.ReviewPK;
 import int222.project.repositories.BrandJpaRepository;
 import int222.project.repositories.ProductJpaRepository;
 import int222.project.repositories.ReviewJpaRepository;
@@ -45,13 +46,13 @@ public class ReviewService {
 		return reviewRepo.saveAndFlush(r);
 	}
 	
-	// Delete review
-//	public Review deleteReviewOfProduct(Integer reviewid) {
-//		Review r = reviewRepo.findById(reviewid).orElseThrow(() -> new DataRelatedException(ERROR_CODE.ITEM_ALREADY_EXIST, 
-//				"Review id: "+reviewid+" does not found."));
-//		reviewRepo.deleteById(reviewid);
-//		return r;
-//	}
+//	 Delete review
+	public Review deleteReviewOfProduct(ReviewPK id) {
+		Review r = reviewRepo.findById(id).orElseThrow(() -> new DataRelatedException(ERROR_CODE.ITEM_DOES_NOT_EXIST, 
+				"Review of product: "+id.getPid()+" from user id: "+id.getUid()+" does not found."));
+		reviewRepo.deleteById(id);
+		return r;
+	}
 	
 	public boolean validateReview(Review r, boolean isEdit) {
 		if (isEdit) {

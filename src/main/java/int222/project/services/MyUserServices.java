@@ -67,6 +67,7 @@ public class MyUserServices implements UserDetailsService {
 	
 	public Users editUser(Users user) {
 		validateEditUser(user);
+		user.setPassword( passwordEncoder.encode(user.getPassword()) );
 		return userRepo.save(user);
 	}
 	

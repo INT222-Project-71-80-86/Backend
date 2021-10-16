@@ -35,7 +35,7 @@ public class Review implements Serializable {
 	private String review;
 	private Integer rating;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date datetime;
 	
 	@ManyToOne(optional = false)

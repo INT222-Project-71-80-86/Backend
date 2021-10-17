@@ -16,7 +16,7 @@ import int222.project.repositories.ColorJpaRepository;
 public class ColorService {
 
 	// * Local Variable *//
-	private final String COLOR_REGEX_PATTERN = "^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$";
+	private final String COLOR_REGEX_PATTERN = "^#([a-fA-F0-9]{6})$";
 	private final Pattern pattern = Pattern.compile(COLOR_REGEX_PATTERN);
 	
 	// Repositories //

@@ -73,6 +73,7 @@ public class MyUserServices implements UserDetailsService {
 	
 	public Users changeRole(Users user) {
 		validateEditUser(user, true);
+		user.setPassword( passwordEncoder.encode(user.getPassword()) );
 		return userRepo.save(user);
 	}
 

@@ -5,11 +5,16 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -29,10 +34,11 @@ public class Orders implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer oid;
 	
 	private BigDecimal totalprice;
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 	
 	@ManyToOne(optional = false)
@@ -44,4 +50,7 @@ public class Orders implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "couponcode", referencedColumnName = "couponcode")
 	private Coupon coupon;	
+	
+	@OneToMany(mappedBy = "order", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    List<Orderdetail> orderdetail;
 }

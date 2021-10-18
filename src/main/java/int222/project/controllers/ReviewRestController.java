@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,18 +30,18 @@ public class ReviewRestController {
 	}
 	
 	@PostMapping("/save")
-	public Review addReview(@RequestBody Review r) {
-		return review.addReviewofProduct(r);
+	public Review addReview(@RequestBody Review r, @RequestAttribute String username) {
+		return review.addReviewofProduct(r,username);
 	}
 	
 	@PutMapping("/edit")
-	public Review editReview(@RequestBody Review r) {
-		return review.editReviewOfProduct(r);
+	public Review editReview(@RequestBody Review r, @RequestAttribute String username) {
+		return review.editReviewOfProduct(r, username);
 	}
 	
 	@DeleteMapping("/delete")
-	public Review deleteReview(@RequestBody ReviewPK id) {
-		return review.deleteReviewOfProduct(id);
+	public Review deleteReview(@RequestBody ReviewPK id, @RequestAttribute String username) {
+		return review.deleteReviewOfProduct(id, username);
 	}
 	
 }

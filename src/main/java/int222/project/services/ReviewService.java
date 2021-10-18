@@ -40,8 +40,8 @@ public class ReviewService {
 	}
 
 	// Add New review of a product
-	public Review addReviewofProduct(Review r) {
-		Users user = userRepo.findByUsername(r.getUser().getUsername());
+	public Review addReviewofProduct(Review r, String username) {
+		Users user = userRepo.findByUsername(username);
 		Product product = prodRepo.findById(r.getId().getPid()).orElseThrow(() -> 
 			new DataRelatedException(ERROR_CODE.PRODUCT_DOESNT_FOUND, "Cannot found this product on database."));
 		if (user == null) {
@@ -57,11 +57,14 @@ public class ReviewService {
 	}
 	
 	// Edit review of a product
-	public Review editReviewOfProduct(Review r) {
-		Users user = userRepo.findById(r.getId().getUid()).orElseThrow(() -> 
-			new DataRelatedException(ERROR_CODE.USER_DOESNT_FOUND, "Cannot found this user on database."));
+	public Review editReviewOfProduct(Review r, String username) {
+		Users user = userRepo.findByUsername(username);
+		if(user == null) {
+			throw new DataRelatedException(ERROR_CODE.USER_DOESNT_FOUND, "Cannot found this user on database.");
+		}
 		Product product = prodRepo.findById(r.getId().getPid()).orElseThrow(() -> 
 			new DataRelatedException(ERROR_CODE.PRODUCT_DOESNT_FOUND, "Cannot found this product on database."));
+		r.getId().setUid(user.getUid());
 		r.setUser(user);
 		r.setProduct(product);
 		r.setDatetime(new Date());
@@ -71,11 +74,18 @@ public class ReviewService {
 	}
 	
 //	 Delete review
-	public Review deleteReviewOfProduct(ReviewPK id) {
+	public Review deleteReviewOfProduct(ReviewPK id, String username) {
+		Users user = userRepo.findByUsername(username);
 		Review r = reviewRepo.findById(id).orElseThrow(() -> new DataRelatedException(ERROR_CODE.ITEM_DOES_NOT_EXIST, 
 				"Review of product: "+id.getPid()+" from user id: "+id.getUid()+" does not found."));
-		reviewRepo.deleteById(id);
-		return r;
+		if(user == null) {
+			throw new DataRelatedException(ERROR_CODE.USER_DOESNT_FOUND, "Doesn't has user: "+username+" in the database.");
+		} else if (user.getRole().equals("ROLE_ADMIN") || user.getRole().equals("ROLE_STAFF") || user.getUsername().equals(r.getUser().getUsername())) {
+			reviewRepo.deleteById(id);
+			return r;
+		} else {
+			throw new DataRelatedException(ERROR_CODE.INVALID_ATTRIBUTE, "Cannot delete this review due to lacks of privileges");
+		}
 	}
 	
 	public boolean validateReview(Review r, boolean isEdit) {

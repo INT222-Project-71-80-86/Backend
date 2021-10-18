@@ -38,14 +38,26 @@ public class Orderdetail implements Serializable {
 	@JsonBackReference
     private Orders order;
 
-    @ManyToOne(optional = false)
-    @MapsId("id")
-    @JoinColumns({
-    	@JoinColumn(name = "pid"),
-    	@JoinColumn(name = "cid")
-    })
-    @JsonBackReference
-	private Productcolor productcolor;
+//    @ManyToOne(optional = false)
+//    @MapsId("id")
+//    @JoinColumns({
+//    	@JoinColumn(name = "pid"),
+//    	@JoinColumn(name = "cid")
+//    })
+//    @JsonBackReference
+//	private Productcolor productcolor;
+	
+	  @ManyToOne(optional = false)
+	  @MapsId("id")
+	  @JoinColumn(name = "pid")
+	  @JsonBackReference
+		private Product product;
+	  
+	  @ManyToOne(optional = false)
+	  @MapsId("id")
+	  @JoinColumn(name = "cid")
+	  @JsonBackReference
+		private Color color;
 
 
 }

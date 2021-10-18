@@ -40,9 +40,16 @@ public class OrderService {
 		return orders;
 	}
 	
+	public Page<Orders> getOrdersByUsername(String username, int pageNo, int size, String sortBy){
+		Page<Orders> orders = orderRepo.findByUsername(username, PageRequest.of(pageNo, size, Sort.by(sortBy)));
+		return orders;
+	}
+	
 	public Orders addOrder(Orders order) {
 		orderRepo.save(order);
 		return null;
 	}
+	
+	
 
 }

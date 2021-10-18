@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,8 +33,8 @@ public class UserRestController {
 	}
 	
 	@PutMapping("/edit")
-	public Users editUser(@RequestBody Users user) {
-		return userService.editUser(user);
+	public Users editUser(@RequestBody Users user, @RequestAttribute String username) {
+		return userService.editUser(user, username);
 	}
 	
 	@GetMapping("/allusers")
@@ -42,8 +43,8 @@ public class UserRestController {
 		return userService.getAllUsersPaging(pageNo, size, sortBy);
 	}
 	
-	@GetMapping("/get/{username}")
-	public Users getUserByUsername(@PathVariable String username) {
+	@GetMapping("/get")
+	public Users getUserByUsername(@RequestAttribute String username) {
 		return userService.getUser(username);
 	}
 	

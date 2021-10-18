@@ -65,7 +65,10 @@ public class MyUserServices implements UserDetailsService {
 		return userRepo.save(user);
 	}
 	
-	public Users editUser(Users user) {
+	public Users editUser(Users user, String username) {
+		if(!user.getUsername().equals(username)) {
+			throw new DataRelatedException(ERROR_CODE.USER_NOT_THE_SAME, "Cannot edit other user except yourself");
+		}
 		validateEditUser(user, false);
 		user.setPassword( passwordEncoder.encode(user.getPassword()) );
 		return userRepo.save(user);

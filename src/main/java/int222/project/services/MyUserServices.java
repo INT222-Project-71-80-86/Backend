@@ -49,7 +49,7 @@ public class MyUserServices implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Users user = userRepo.findByUsername(username);
-		if(user == null) { 
+		if(user == null || user.getDeleted() != 0) { 
 			throw new UsernameNotFoundException("User not found in the database.");
 		} else {
 			Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();

@@ -67,6 +67,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(username, null, authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                    request.setAttribute("username", username);
                     filterChain.doFilter(request, response);
                 }catch (Exception exception) {
                     log.error("Error logging in: {}", exception.getMessage());

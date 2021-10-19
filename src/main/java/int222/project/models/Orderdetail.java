@@ -35,29 +35,29 @@ public class Orderdetail implements Serializable {
 	@ManyToOne(optional = false)
     @MapsId("oid")
     @JoinColumn(name = "oid")
-	@JsonBackReference
+	@JsonBackReference(value = "order")
     private Orders order;
 
-//    @ManyToOne(optional = false)
-//    @MapsId("id")
-//    @JoinColumns({
-//    	@JoinColumn(name = "pid"),
-//    	@JoinColumn(name = "cid")
-//    })
-//    @JsonBackReference
-//	private Productcolor productcolor;
+    @ManyToOne(optional = false)
+    @MapsId("id")
+    @JoinColumns({
+    	@JoinColumn(name = "pid", referencedColumnName = "pid"),
+    	@JoinColumn(name = "cid", referencedColumnName = "cid")
+    })
+    @JsonBackReference(value = "productcolor")
+	private Productcolor productcolor;
 	
-	  @ManyToOne(optional = false)
-	  @MapsId("id")
-	  @JoinColumn(name = "pid")
-	  @JsonBackReference
-		private Product product;
-	  
-	  @ManyToOne(optional = false)
-	  @MapsId("id")
-	  @JoinColumn(name = "cid")
-	  @JsonBackReference
-		private Color color;
+//	  @ManyToOne(optional = false)
+//	  @MapsId("id")
+//	  @JoinColumn(name = "pid")
+//	  @JsonBackReference
+//		private Product product;
+//	  
+//	  @ManyToOne(optional = false)
+//	  @MapsId("id")
+//	  @JoinColumn(name = "cid")
+//	  @JsonBackReference
+//		private Color color;
 
 
 }

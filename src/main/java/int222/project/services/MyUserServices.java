@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -131,6 +132,47 @@ public class MyUserServices implements UserDetailsService {
         } else {
             throw new RuntimeException("Refresh token is missing");
         }
+    }
+    
+    public void refreshTokenV2(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    	Cookie[] cookies = request.getCookies();
+    	for (Cookie cookie : cookies) {
+			if(cookie.getName().equals("refresh_token")) {
+				try {
+	                String refresh_token = cookie.getValue();
+	                Algorithm algorithm = Algorithm.HMAC256(secret.getBytes());
+	                JWTVerifier verifier = JWT.require(algorithm).build();
+	                DecodedJWT decodedJWT = verifier.verify(refresh_token);
+	                String username = decodedJWT.getSubject();
+	                Users user = getUser(username);
+	                List<String> strings = new ArrayList<>();
+	                strings.add(user.getRole());
+	                String access_token = JWT.create()
+	                        .withSubject(user.getUsername())
+	                        .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000 ))
+	                        .withIssuer(request.getRequestURL().toString())
+	                        .withClaim("roles", strings)
+	                        .sign(algorithm);
+	                Map<String, String> tokens = new HashMap<>();
+	                tokens.put("access_token", access_token);
+	                tokens.put("refresh_token", refresh_token);
+	                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+	                new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+	                break;
+	            }catch (Exception exception) {
+	                response.setHeader("error", exception.getMessage());
+	                response.setStatus(HttpStatus.FORBIDDEN.value());
+	                //response.sendError(FORBIDDEN.value());
+	                Map<String, String> error = new HashMap<>();
+	                error.put("error_message", exception.getMessage());
+	                response.setContentType(MimeTypeUtils.APPLICATION_JSON_VALUE);
+	                new ObjectMapper().writeValue(response.getOutputStream(), error);
+	                break;
+	            }
+			} else {
+				continue;
+			}
+		}
     }
 	
 	private void validateAddUser(Users user) {

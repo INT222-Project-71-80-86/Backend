@@ -80,7 +80,7 @@ public class ReviewService {
 				"Review of product: "+id.getPid()+" from user id: "+id.getUid()+" does not found."));
 		if(user == null) {
 			throw new DataRelatedException(ERROR_CODE.USER_DOESNT_FOUND, "Doesn't has user: "+username+" in the database.");
-		} else if (user.getRole().equals("ROLE_ADMIN") || user.getRole().equals("ROLE_STAFF") || user.getUsername().equals(r.getUser().getUsername())) {
+		} else if ( !user.getRole().equals("ROLE_CUSTOMER") || user.getUsername().equals(r.getUser().getUsername())) {
 			reviewRepo.deleteById(id);
 			return r;
 		} else {

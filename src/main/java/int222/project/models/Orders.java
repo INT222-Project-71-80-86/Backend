@@ -24,11 +24,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Entity
 public class Orders implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -42,7 +44,6 @@ public class Orders implements Serializable {
 	private Date date;
 	
 	@ManyToOne(optional = false)
-    @MapsId("uid")
     @JoinColumn(name = "uid")
     @JsonBackReference
 	private Users user;
@@ -50,6 +51,8 @@ public class Orders implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "couponcode", referencedColumnName = "couponcode")
 	private Coupon coupon;	
+	
+	private String status;
 	
 	@OneToMany(mappedBy = "order", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     List<Orderdetail> orderdetail;

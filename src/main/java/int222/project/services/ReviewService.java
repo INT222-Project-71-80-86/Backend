@@ -4,19 +4,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import int222.project.exceptions.DataRelatedException;
 import int222.project.exceptions.ExceptionResponse.ERROR_CODE;
-import int222.project.models.Brand;
 import int222.project.models.Product;
 import int222.project.models.Review;
 import int222.project.models.ReviewPK;
 import int222.project.models.Users;
-import int222.project.repositories.BrandJpaRepository;
 import int222.project.repositories.ProductJpaRepository;
 import int222.project.repositories.ReviewJpaRepository;
 import int222.project.repositories.UserJpaRepository;

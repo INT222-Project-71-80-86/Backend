@@ -11,17 +11,13 @@ import org.springframework.stereotype.Service;
 
 import int222.project.exceptions.DataRelatedException;
 import int222.project.exceptions.ExceptionResponse.ERROR_CODE;
-import int222.project.models.Color;
 import int222.project.models.Orderdetail;
 import int222.project.models.OrderdetailPK;
 import int222.project.models.Orders;
 import int222.project.models.Product;
 import int222.project.models.Productcolor;
-import int222.project.models.ProductcolorPK;
 import int222.project.models.Users;
-import int222.project.repositories.ColorJpaRepository;
 import int222.project.repositories.OrderJpaRepository;
-import int222.project.repositories.OrderdetailJpaRepository;
 import int222.project.repositories.ProdColorJpaRepository;
 import int222.project.repositories.ProductJpaRepository;
 import int222.project.repositories.UserJpaRepository;
@@ -32,15 +28,11 @@ public class OrderService {
 	@Autowired
 	private OrderJpaRepository orderRepo;
 	@Autowired
-	private OrderdetailJpaRepository orderdetailRepo;
-	@Autowired
 	private ProductJpaRepository prodRepo;
 	@Autowired
 	private ProdColorJpaRepository prodColorRepo;
 	@Autowired
 	private UserJpaRepository userRepo;
-	@Autowired
-	private ColorJpaRepository colorRepo;
 	
 	public Orders getOrderById(int orderId) {
 		Orders order = orderRepo.findById(orderId).orElseThrow(() -> new DataRelatedException(ERROR_CODE.ORDER_DOESNT_FOUND

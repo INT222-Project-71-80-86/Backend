@@ -8,10 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
 
 /**
  * The persistent class for the brand database table.

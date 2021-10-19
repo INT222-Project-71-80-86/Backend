@@ -70,13 +70,11 @@ public class MyUserServices implements UserDetailsService {
 			throw new DataRelatedException(ERROR_CODE.USER_NOT_THE_SAME, "Cannot edit other user except yourself");
 		}
 		validateEditUser(user, false);
-		user.setPassword( passwordEncoder.encode(user.getPassword()) );
 		return userRepo.save(user);
 	}
 	
 	public Users changeRole(Users user) {
 		validateEditUser(user, true);
-		user.setPassword( passwordEncoder.encode(user.getPassword()) );
 		return userRepo.save(user);
 	}
 
@@ -143,6 +141,9 @@ public class MyUserServices implements UserDetailsService {
 		if( !(user.getRole().equals("ROLE_CUSTOMER") || user.getRole().equals("ROLE_STAFF") || user.getRole().equals("ROLE_ADMIN")) ) {
 			throw new DataRelatedException(ERROR_CODE.INVALID_ATTRIBUTE, "Roles must be ROLE_CUSTOMER, ROLE_STAFF, or ROLE_ADMIN");
 		}
+		if(user.getPassword() == null) {
+			throw new DataRelatedException(ERROR_CODE.INVALID_ATTRIBUTE, "Password cannot be null");
+		}
 	}
 	
 	private void validateEditUser(Users user, boolean isRoleEdit) {
@@ -158,7 +159,15 @@ public class MyUserServices implements UserDetailsService {
 			if(!user.getRole().equals(tempUser.getRole())) {
 				throw new DataRelatedException(ERROR_CODE.INVALID_ATTRIBUTE, "You cannot change your role!");
 			}
+			if(user.getPassword() == null) {
+				user.setPassword(tempUser.getPassword());
+			} else {
+				user.setPassword( passwordEncoder.encode(user.getPassword()) );
+			}
+		} else {
+			user.setPassword(tempUser.getPassword());
 		}
+		
 		
 	}
 	

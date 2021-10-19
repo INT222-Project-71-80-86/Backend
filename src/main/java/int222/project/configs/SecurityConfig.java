@@ -39,8 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.csrf().disable();
 		http.sessionManagement().sessionCreationPolicy(STATELESS);
 		http.authorizeRequests().antMatchers("/api/login/**", "/api/user/token/refresh").permitAll();
-		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/user/get/*").hasAnyAuthority("ROLE_CUSTOMER","ROLE_STAFF","ROLE_ADMIN");
-		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/file", "/api/user/allusers").hasAnyAuthority("ROLE_ADMIN");
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/user/get", "/api/order/get/id/*", "/api/order/get/username").hasAnyAuthority("ROLE_CUSTOMER","ROLE_STAFF","ROLE_ADMIN");
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/user/allusers","/api/coupons","/api/orders", "/api/orderdetails", "/api/reviews", "/api/prodcolors").hasAnyAuthority("ROLE_ADMIN");
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/file/", "/api/order/all").hasAnyAuthority("ROLE_ADMIN", "ROLE_STAFF");
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/product/**", "/api/product", "/api/brand", "/api/brand/*",
 				"/api/color", "/api/color/*", "/api/cats", "/api/file/*", "/api/review/*").permitAll();
 		/* ----------------------POST-------------------- */
@@ -48,10 +49,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/brand/save", "/api/color/save").hasAnyAuthority("ROLE_ADMIN");
 		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/product/save").hasAnyAuthority("ROLE_STAFF","ROLE_ADMIN");
 		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/something").hasAnyAuthority("ROLE_STAFF");
-		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/review/save").hasAnyAuthority("ROLE_CUSTOMER");
+		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/review/save", "/api/order/save").hasAnyAuthority("ROLE_CUSTOMER");
 		/* ----------------------PUT--------------------- */
-		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/brand/edit", "/api/color/edit", "/api/user/edit").hasAnyAuthority("ROLE_ADMIN");
+		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/brand/edit", "/api/color/edit", "/api/user/roleedit").hasAnyAuthority("ROLE_ADMIN");
 		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/product/edit").hasAnyAuthority("ROLE_STAFF","ROLE_ADMIN");
+		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/user/edit").hasAnyAuthority("ROLE_STAFF","ROLE_ADMIN","ROLE_CUSTOMER");
 		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/something").hasAnyAuthority("ROLE_STAFF");
 		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/review/edit").hasAnyAuthority("ROLE_CUSTOMER");
 		/* ---------------------DELETE------------------- */
@@ -59,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/api/product/delete/*").hasAnyAuthority("ROLE_STAFF","ROLE_ADMIN");
 		http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/api/something").hasAnyAuthority("ROLE_STAFF");
 		http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/api/something").hasAnyAuthority("ROLE_CUSTOMER");
-		http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/api/review/delete/*").hasAnyAuthority("ROLE_CUSTOMER","ROLE_STAFF","ROLE_ADMIN");
+		http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/api/review/delete", "/api/order/cancel/*").hasAnyAuthority("ROLE_CUSTOMER","ROLE_STAFF","ROLE_ADMIN");
 		http.authorizeRequests().anyRequest().authenticated();
 		http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(secret), UsernamePasswordAuthenticationFilter.class);

@@ -63,6 +63,7 @@ public class OrderService {
 		if(user == null) {
 			throw new DataRelatedException(ERROR_CODE.USER_DOESNT_FOUND, "Doesn't found user with username: "+username+".");
 		}
+		order.setOid(0);
 		order.setTotalprice(new BigDecimal(0.0));
 		order.setDate(new Date());
 		order.setUser(user);

@@ -101,6 +101,7 @@ public class MyUserServices implements UserDetailsService {
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             try {
+            	System.out.println("Refresh Token Activated");
                 String refresh_token = authorizationHeader.substring("Bearer ".length());
                 Algorithm algorithm = Algorithm.HMAC256(secret.getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();
@@ -139,6 +140,7 @@ public class MyUserServices implements UserDetailsService {
     	for (Cookie cookie : cookies) {
 			if(cookie.getName().equals("refresh_token")) {
 				try {
+//					System.out.println("REFRESH TOKEN ACTIVATED");
 	                String refresh_token = cookie.getValue();
 	                Algorithm algorithm = Algorithm.HMAC256(secret.getBytes());
 	                JWTVerifier verifier = JWT.require(algorithm).build();

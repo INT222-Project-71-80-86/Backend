@@ -12,8 +12,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import int222.project.filter.CorsFilter;
 import int222.project.filter.CustomAuthenticationFilter;
 import int222.project.filter.CustomAuthorizationFilter;
 import int222.project.services.MyUserServices;
@@ -25,6 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	private final MyUserServices userService;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Value("${jwt.token.secret}") private String secret;
+	@Value("${server.fe.ip.addr}")private String host;
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -64,6 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests().anyRequest().authenticated();
 		http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(secret), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new CorsFilter(host), ChannelProcessingFilter.class);
 	}
 	
     @Bean

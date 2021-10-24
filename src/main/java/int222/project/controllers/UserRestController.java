@@ -54,7 +54,8 @@ public class UserRestController {
 	
 	 @GetMapping("/token/refresh")
 	    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		 userService.refreshTokenV2(request, response);
+//		 userService.refreshTokenV2(request, response);
+		 userService.refreshToken(request, response);
 	 }
 
 }

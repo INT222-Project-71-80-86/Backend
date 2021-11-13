@@ -67,12 +67,21 @@ public class OrderService {
 		order.setUser(user);
 		checkAndAddOrderDetails(order);
 		if(order.getCoupon() != null) {
+			checkIfCouponAlreadyUsed(user, order);
 			couponDiscount(order);
 		}
 		order.setStatus("Paid");
 		return orderRepo.save(order);
 	}
 	
+	private void checkIfCouponAlreadyUsed(Users user, Orders order) {
+		Orders checkOrder = orderRepo.findFirstByCouponCouponcodeAndUserUsername(order.getCoupon().getCouponcode(), user.getUsername());
+		if(checkOrder != null) {
+			returnOrderedProduct(order);
+			throw new DataRelatedException(ERROR_CODE.COUPON_ALREADY_USED, "This user already use this coupon");
+		}
+	}
+
 	private void couponDiscount(Orders order) {
 		Coupon coupon = couponRepo.findById(order.getCoupon().getCouponcode()).orElse(null);
 		if(coupon == null) {

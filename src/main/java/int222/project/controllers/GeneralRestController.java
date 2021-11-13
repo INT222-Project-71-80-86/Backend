@@ -24,8 +24,6 @@ public class GeneralRestController {
 	@Autowired
 	UserJpaRepository userRepo;
 	@Autowired
-	CouponJpaRepository couRepo;
-	@Autowired
 	OrderJpaRepository orderRepo;
 	@Autowired
 	OrderdetailJpaRepository orderdetailRepo;
@@ -48,11 +46,6 @@ public class GeneralRestController {
 	@GetMapping("/api/cats")
 	public List<Category> getCategories() {
 		return catRepo.findAll();
-	}
-	
-	@GetMapping("/api/coupons")
-	public List<Coupon> getCoupon() {
-		return couRepo.findAll();
 	}
 	
 	@GetMapping("/api/orders")

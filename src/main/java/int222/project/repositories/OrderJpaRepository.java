@@ -16,5 +16,8 @@ public interface OrderJpaRepository extends JpaRepository<Orders, Integer> {
 	
 //	@Query("SELECT o FROM Orders o WHERE o.coupon IS NOT NULL AND o.coupon.couponcode = ?1 LIMIT 1")
 	public Orders findFirstByCouponCouponcode(String couponCode);
+	
+	@Query("SELECT count(*) FROM Orders o WHERE o.coupon.couponcode = ?1")
+	public long countByCouponCouponcode(String couponCode);
 
 }

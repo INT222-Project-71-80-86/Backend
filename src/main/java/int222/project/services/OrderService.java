@@ -11,12 +11,14 @@ import org.springframework.stereotype.Service;
 
 import int222.project.exceptions.DataRelatedException;
 import int222.project.exceptions.ExceptionResponse.ERROR_CODE;
+import int222.project.models.Coupon;
 import int222.project.models.Orderdetail;
 import int222.project.models.OrderdetailPK;
 import int222.project.models.Orders;
 import int222.project.models.Product;
 import int222.project.models.Productcolor;
 import int222.project.models.Users;
+import int222.project.repositories.CouponJpaRepository;
 import int222.project.repositories.OrderJpaRepository;
 import int222.project.repositories.ProdColorJpaRepository;
 import int222.project.repositories.ProductJpaRepository;
@@ -33,6 +35,10 @@ public class OrderService {
 	private ProdColorJpaRepository prodColorRepo;
 	@Autowired
 	private UserJpaRepository userRepo;
+	@Autowired
+	private CouponJpaRepository couponRepo;
+	@Autowired
+	private CouponService couponService;
 	
 	public Orders getOrderById(int orderId) {
 		Orders order = orderRepo.findById(orderId).orElseThrow(() -> new DataRelatedException(ERROR_CODE.ORDER_DOESNT_FOUND
@@ -60,10 +66,65 @@ public class OrderService {
 		order.setDate(new Date());
 		order.setUser(user);
 		checkAndAddOrderDetails(order);
+		if(order.getCoupon() != null) {
+			couponDiscount(order);
+		}
 		order.setStatus("Paid");
 		return orderRepo.save(order);
 	}
 	
+	private void couponDiscount(Orders order) {
+		Coupon coupon = couponRepo.findById(order.getCoupon().getCouponcode()).orElse(null);
+		if(coupon == null) {
+			returnOrderedProduct(order);
+			throw new DataRelatedException(ERROR_CODE.COUPON_DOESNT_FOUND, "Coupon doesn't found");
+		}
+		
+		if(coupon.getMaxusage() != null && coupon.getMaxusage() == -1) {
+			returnOrderedProduct(order);
+			throw new DataRelatedException(ERROR_CODE.COUPON_INVALID, "Coupon is invalidated due to the limit or deleted");
+		}
+		
+		if(coupon.getMaxusage() != null && coupon.getMaxusage() != -1) {
+			long countCoupon = orderRepo.countByCouponCouponcode(coupon.getCouponcode());
+			if (countCoupon >= coupon.getMaxusage()) {
+//				couponService.invalidatedCoupon(coupon.getCouponcode());
+				returnOrderedProduct(order);
+				throw new DataRelatedException(ERROR_CODE.COUPON_EXCEED_MAX_USAGE, "Coupon usage reach the limit");
+			}
+		}
+		
+		if(order.getDate().after(coupon.getExpdate())) {
+			couponService.invalidatedCoupon(coupon.getCouponcode());
+			returnOrderedProduct(order);
+			throw new DataRelatedException(ERROR_CODE.COUPON_EXPIRED, "Coupon expired");
+		}
+		
+		if(order.getTotalprice().compareTo(coupon.getMinprice()) == -1) {
+			returnOrderedProduct(order);
+			throw new DataRelatedException(ERROR_CODE.COUPON_DOESNT_MEET_MIN_PRICE, "Order doesn't meet the coupon minimum price requirement");
+		}
+		
+		switch (coupon.getIspercent()) {
+		case 0:
+			BigDecimal discountedTotalPrice = order.getTotalprice().subtract(coupon.getValue());
+			if(discountedTotalPrice.doubleValue() < 0) {
+				discountedTotalPrice = BigDecimal.valueOf(0.0);
+			}
+			order.setTotalprice(discountedTotalPrice);
+			break;
+		case 1:
+			BigDecimal discountedPrice = order.getTotalprice().multiply(coupon.getValue().divide(BigDecimal.valueOf(100.0)));
+			if (discountedPrice.compareTo(coupon.getMaxdiscount()) == 1) {
+				discountedPrice = coupon.getMaxdiscount();
+			}
+			order.setTotalprice( order.getTotalprice().subtract(discountedPrice) );
+			break;
+		default:
+			throw new DataRelatedException(ERROR_CODE.COUPON_INVALID, "isPercent field is invalid.");
+		}
+	}
+
 	private void checkAndAddOrderDetails(Orders order) {
 		for (Orderdetail od : order.getOrderdetail()) {
 			Product product = prodRepo.findById(od.getId().getProductcolor().getPid()).orElseThrow(
@@ -90,6 +151,7 @@ public class OrderService {
 			throw new DataRelatedException(ERROR_CODE.ORDER_CANCELED, "This order already cancelled");
 		}
 		order.setStatus("Cancelled");
+		order.setCoupon(null);
 		returnOrderedProduct(order);
 		return orderRepo.save(order);
 	}

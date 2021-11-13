@@ -83,10 +83,6 @@ public class CouponService {
 		if(coupon.getMaxusage() != null && coupon.getMaxusage() == -1) {
 			throw new DataRelatedException(ERROR_CODE.COUPON_EXPIRED, "This coupon already been invalidated");
 		}
-		Date now = new Date();
-		LocalDateTime ldt = LocalDateTime.ofInstant(now.toInstant(), ZoneId.systemDefault()).minusDays(1);
-		Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
-		coupon.setExpdate(out);
 		coupon.setMaxusage(-1);
 		couponRepo.save(coupon);
 		return coupon;

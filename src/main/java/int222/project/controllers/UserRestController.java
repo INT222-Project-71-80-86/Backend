@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -29,6 +30,11 @@ public class UserRestController {
 	@PostMapping("/save")
 	public Users saveUser(@RequestBody Users user) {
 		return userService.addUser(user);
+	}
+	
+	@GetMapping("/check/{username}")
+	public boolean checkIfUserExists(@PathVariable String username) {
+		return userService.checkIfUserExists(username);
 	}
 	
 	@PutMapping("/edit")

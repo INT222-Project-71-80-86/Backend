@@ -214,6 +214,14 @@ public class MyUserServices implements UserDetailsService {
 		
 		
 	}
+
+	public boolean checkIfUserExists(String username) {
+		Users user = userRepo.findByUsername(username);
+		if(user != null) {
+			return true;
+		}
+		return false;
+	}
 	
 	
 

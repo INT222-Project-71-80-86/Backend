@@ -5,6 +5,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import int222.project.exceptions.DataRelatedException;
@@ -33,6 +36,10 @@ public class ColorService {
 	// Get all colors 
 	public List<Color> findAllColors() {
 		return colorRepo.findAllColors();
+	}
+	
+	public Page<Color> findAllColorsWithPaging(int pageNo, int size, String sortBy) {
+		return colorRepo.findAll(PageRequest.of(pageNo, size, Sort.by(sortBy)));
 	}
 
 	// Add Color
@@ -97,5 +104,7 @@ public class ColorService {
  		c.setDeleted(1);
  		return colorRepo.save(c);
  	}
+
+
  
 }

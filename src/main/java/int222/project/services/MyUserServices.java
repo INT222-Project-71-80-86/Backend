@@ -211,8 +211,6 @@ public class MyUserServices implements UserDetailsService {
 		} else {
 			user.setPassword(tempUser.getPassword());
 		}
-		
-		
 	}
 
 	public boolean checkIfUserExists(String username) {
@@ -222,7 +220,4 @@ public class MyUserServices implements UserDetailsService {
 		}
 		return false;
 	}
-	
-	
-
 }

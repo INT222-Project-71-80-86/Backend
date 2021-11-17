@@ -108,8 +108,25 @@ public class ProductService {
 			file.deleteOne(oldProd.getImage()); // If Validate Succesfully Remove old image
 		}
 		addPrimaryKey(product);
-		pcRepo.removeByIdPid(product.getPid());
+//		pcRepo.removeByIdPid(product.getPid()); //TODO Change method bc: Cant remove productcolor due to it in orders. 
+		fakeRemoveProductColor(product, oldProd);
 		return prodRepo.saveAndFlush(product);
+	}
+
+	private void fakeRemoveProductColor(Product product, Product oldProd) {
+		for (Productcolor op : oldProd.getProductcolor()) {
+			boolean dupeCheck = false;
+			for (Productcolor p : product.getProductcolor()) {
+				if(op.getId().getCid() == p.getId().getCid()) {
+					dupeCheck = true;
+				}
+			}
+			if(!dupeCheck) {
+				op.setAmount(-1);
+				product.getProductcolor().add(op);
+			}
+		}
+		
 	}
 
 	// Remove product V1 (Delete Product)

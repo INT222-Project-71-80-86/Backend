@@ -49,19 +49,19 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         return authenticationManager.authenticate(authenticationToken);
     }
     
-    @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-    		AuthenticationException failed) throws IOException, ServletException {
-    	
-    	response.setHeader("error", "Unsuccessful Authentication");
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        Map<String, String> error = new HashMap<>();
-        error.put("error_message", "Unsuccessful Authentication");
-        response.setContentType(MimeTypeUtils.APPLICATION_JSON_VALUE);
-        new ObjectMapper().writeValue(response.getOutputStream(), error);
-//    	response.sendError(HttpStatus.UNAUTHORIZED.value(), "Unsuccessful Authentication");
-    	super.unsuccessfulAuthentication(request, response, failed);
-    }
+//    @Override
+//    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+//    		AuthenticationException failed) throws IOException, ServletException {
+//    	
+//    	response.setHeader("error", "Unsuccessful Authentication");
+//        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+//        Map<String, String> error = new HashMap<>();
+//        error.put("error_message", "Unsuccessful Authentication");
+//        response.setContentType(MimeTypeUtils.APPLICATION_JSON_VALUE);
+//        new ObjectMapper().writeValue(response.getOutputStream(), error);
+////    	response.sendError(HttpStatus.UNAUTHORIZED.value(), "Unsuccessful Authentication");
+//    	super.unsuccessfulAuthentication(request, response, failed);
+//    }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {

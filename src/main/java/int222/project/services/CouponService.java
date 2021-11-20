@@ -56,6 +56,7 @@ public class CouponService {
 			throw new DataRelatedException(ERROR_CODE.COUPON_INVALID, "The coupon code should be at most 10 characters");
 		}
 		couponBasicValidation(coupon);
+		coupon.setCouponcode(coupon.getCouponcode().toUpperCase());
 		couponRepo.save(coupon);
 		return coupon;
 	}
@@ -65,7 +66,7 @@ public class CouponService {
 		Coupon checkCoupon = couponRepo.findById(coupon.getCouponcode()).orElseThrow(() -> new DataRelatedException(ERROR_CODE.ITEM_DOES_NOT_EXIST, 
 				"The enter coupon code is not exists."));
 		Orders checkUsed = orderRepo.findFirstByCouponCouponcode(coupon.getCouponcode());
-		if(checkCoupon.getMaxusage() == -1) {
+		if(checkCoupon.getMaxusage() != null && checkCoupon.getMaxusage() == -1) {
 			throw new DataRelatedException(ERROR_CODE.COUPON_EXPIRED, "This coupon has been invalidated");
 		}
 		if(checkUsed != null) {
@@ -114,6 +115,33 @@ public class CouponService {
 			coupon.setDescription("No description.");
 		}
 		
+	}
+	
+	public boolean checkIfCouponApplicable(String couponCode, String username) {
+		Coupon coupon = couponRepo.findById(couponCode).orElse(null);
+		Date now = new Date();
+		Orders checkOrder = orderRepo.findFirstByCouponCouponcodeAndUserUsername(couponCode, username);
+		if(coupon == null) {
+			throw new DataRelatedException(ERROR_CODE.COUPON_DOESNT_FOUND, "Coupon doesn't found");
+		}
+		if(coupon.getMaxusage() != null && coupon.getMaxusage() == -1) {
+			throw new DataRelatedException(ERROR_CODE.COUPON_INVALID, "Coupon is invalidated");
+		}
+		
+		if(coupon.getMaxusage() != null && coupon.getMaxusage() != -1) {
+			long countCoupon = orderRepo.countByCouponCouponcode(coupon.getCouponcode());
+			if (countCoupon >= coupon.getMaxusage()) {
+				throw new DataRelatedException(ERROR_CODE.COUPON_EXCEED_MAX_USAGE, "Coupon usage reach the limit");
+			}
+		}
+		if(now.after(coupon.getExpdate())) {
+			throw new DataRelatedException(ERROR_CODE.COUPON_EXPIRED, "Coupon expired");
+		}
+		
+		if(checkOrder != null) {
+			throw new DataRelatedException(ERROR_CODE.COUPON_ALREADY_USED, "User already use this coupon");
+		}
+		return true;
 	}
 
 }

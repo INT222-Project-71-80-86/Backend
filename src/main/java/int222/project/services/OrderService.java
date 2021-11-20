@@ -109,7 +109,7 @@ public class OrderService {
 			throw new DataRelatedException(ERROR_CODE.COUPON_EXPIRED, "Coupon expired");
 		}
 		
-		if(order.getTotalprice().compareTo(coupon.getMinprice()) == -1) {
+		if(coupon.getMinprice() != null && order.getTotalprice().compareTo(coupon.getMinprice()) == -1) {
 			returnOrderedProduct(order);
 			throw new DataRelatedException(ERROR_CODE.COUPON_DOESNT_MEET_MIN_PRICE, "Order doesn't meet the coupon minimum price requirement");
 		}
@@ -124,7 +124,7 @@ public class OrderService {
 			break;
 		case 1:
 			BigDecimal discountedPrice = order.getTotalprice().multiply(coupon.getValue().divide(BigDecimal.valueOf(100.0)));
-			if (discountedPrice.compareTo(coupon.getMaxdiscount()) == 1) {
+			if (coupon.getMaxdiscount() != null && discountedPrice.compareTo(coupon.getMaxdiscount()) == 1) {
 				discountedPrice = coupon.getMaxdiscount();
 			}
 			order.setTotalprice( order.getTotalprice().subtract(discountedPrice) );

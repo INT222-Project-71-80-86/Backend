@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import int222.project.exceptions.DataRelatedException;
 import int222.project.exceptions.ExceptionResponse.ERROR_CODE;
+import int222.project.models.Color;
 import int222.project.models.Coupon;
 import int222.project.models.Orderdetail;
 import int222.project.models.OrderdetailPK;
@@ -19,6 +20,7 @@ import int222.project.models.Product;
 import int222.project.models.Productcolor;
 import int222.project.models.Users;
 import int222.project.repositories.CouponJpaRepository;
+import int222.project.repositories.ColorJpaRepository;
 import int222.project.repositories.OrderJpaRepository;
 import int222.project.repositories.ProdColorJpaRepository;
 import int222.project.repositories.ProductJpaRepository;
@@ -33,6 +35,8 @@ public class OrderService {
 	private ProductJpaRepository prodRepo;
 	@Autowired
 	private ProdColorJpaRepository prodColorRepo;
+	@Autowired
+	private ColorJpaRepository colorRepo;
 	@Autowired
 	private UserJpaRepository userRepo;
 	@Autowired
@@ -140,12 +144,15 @@ public class OrderService {
 					() -> new DataRelatedException(ERROR_CODE.PRODUCT_DOESNT_FOUND, "Doesn't have this product in database."));
 			Productcolor pdc = prodColorRepo.findById(od.getId().getProductcolor()).orElseThrow(
 					() -> new DataRelatedException(ERROR_CODE.PRODUCT_DOESNT_FOUND, "Doesn't have this product in database."));
+			Color color = colorRepo.findById(od.getId().getProductcolor().getCid()).orElseThrow(
+					() -> new DataRelatedException(ERROR_CODE.PRODUCT_DOESNT_FOUND, "Doesn't have this product in database."));
 			if(od.getAmount() > pdc.getAmount()) {
 				throw new DataRelatedException(ERROR_CODE.ITEM_INSUFFICIENT, "Ordered amount is excess than stock amount.");
 			}
 			od.setId(new OrderdetailPK(od.getId().getProductcolor(), order.getOid()));
 			od.setPriceeach(product.getPrice());
 			od.setProduct(product);
+			od.setColor(color);
 			order.setTotalprice( order.getTotalprice().add(od.getPriceeach().multiply(BigDecimal.valueOf(od.getAmount()))));
 			pdc.setAmount(pdc.getAmount() - od.getAmount());
 			od.setOrder(order);

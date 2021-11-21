@@ -145,6 +145,7 @@ public class OrderService {
 			}
 			od.setId(new OrderdetailPK(od.getId().getProductcolor(), order.getOid()));
 			od.setPriceeach(product.getPrice());
+			od.setProduct(product);
 			order.setTotalprice( order.getTotalprice().add(od.getPriceeach().multiply(BigDecimal.valueOf(od.getAmount()))));
 			pdc.setAmount(pdc.getAmount() - od.getAmount());
 			od.setOrder(order);

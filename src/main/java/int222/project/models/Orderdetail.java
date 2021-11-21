@@ -32,6 +32,11 @@ public class Orderdetail implements Serializable {
     private Integer amount;
     private BigDecimal priceeach;
     
+    @ManyToOne(optional = false)
+    @MapsId("id.pid")
+    @JoinColumn(name = "pid")
+    private Product product;
+    
 	@ManyToOne(optional = false)
     @MapsId("oid")
     @JoinColumn(name = "oid")

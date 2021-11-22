@@ -37,6 +37,11 @@ public class Orderdetail implements Serializable {
     @JoinColumn(name = "pid")
     private Product product;
     
+    @ManyToOne(optional = false)
+    @MapsId("id.cid")
+    @JoinColumn(name = "cid")
+    private Color color;
+    
 	@ManyToOne(optional = false)
     @MapsId("oid")
     @JoinColumn(name = "oid")

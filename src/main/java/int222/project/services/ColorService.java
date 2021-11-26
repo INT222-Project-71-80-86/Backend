@@ -39,7 +39,7 @@ public class ColorService {
 	}
 	
 	public Page<Color> findAllColorsWithPaging(int pageNo, int size, String sortBy) {
-		return colorRepo.findAll(PageRequest.of(pageNo, size, Sort.by(sortBy)));
+		return colorRepo.findAllColorsPaging(PageRequest.of(pageNo, size, Sort.by(sortBy)));
 	}
 
 	// Add Color

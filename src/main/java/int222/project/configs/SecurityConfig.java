@@ -57,13 +57,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/brand/edit", "/api/color/edit", "/api/user/roleedit", "/api/coupon/edit").hasAnyAuthority("ROLE_ADMIN");
 		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/product/edit").hasAnyAuthority("ROLE_STAFF","ROLE_ADMIN");
 		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/user/edit").hasAnyAuthority("ROLE_STAFF","ROLE_ADMIN","ROLE_CUSTOMER");
-		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/something").hasAnyAuthority("ROLE_STAFF");
 		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/api/review/edit").hasAnyAuthority("ROLE_CUSTOMER");
 		/* ---------------------DELETE------------------- */
 		http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/api/brand/delete/*", "/api/color/delete/*", "/api/coupon/delete/*").hasAnyAuthority("ROLE_ADMIN");
 		http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/api/product/delete/*").hasAnyAuthority("ROLE_STAFF","ROLE_ADMIN");
-		http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/api/something").hasAnyAuthority("ROLE_STAFF");
-		http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/api/something").hasAnyAuthority("ROLE_CUSTOMER");
 		http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/api/review/delete", "/api/order/cancel/*").hasAnyAuthority("ROLE_CUSTOMER","ROLE_STAFF","ROLE_ADMIN");
 		http.authorizeRequests().anyRequest().authenticated();
 		http.addFilter(customAuthenticationFilter);

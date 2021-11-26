@@ -34,7 +34,7 @@ public class BrandService {
 	}
 	
 	public Page<Brand> findAllBrandsWithPaging(int pageNo, int size, String sortBy) {
-		return brandRepo.findAll(PageRequest.of(pageNo, size, Sort.by(sortBy)));
+		return brandRepo.findAllBrandsPaging(PageRequest.of(pageNo, size, Sort.by(sortBy)));
 	}
 
 	// Add Brand

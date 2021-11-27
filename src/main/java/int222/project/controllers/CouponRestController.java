@@ -3,6 +3,7 @@ package int222.project.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import int222.project.models.Coupon;
@@ -26,6 +28,13 @@ public class CouponRestController {
 	@GetMapping("/allcoupons")
 	public List<Coupon> getCoupons() {
 		return couponService.findAllCoupons();
+	}
+	
+	@GetMapping("/allcoupons/paging")
+	public Page<Coupon> getCouponsWithPaging(@RequestParam(defaultValue = "0") int pageNo,
+			@RequestParam(defaultValue = "5") int size, @RequestParam(defaultValue = "couponcode") String sortBy) {
+		return couponService.findAllCouponsPage(pageNo, size, sortBy);
+		
 	}
 	
 	// Search Coupon By Coupon Code

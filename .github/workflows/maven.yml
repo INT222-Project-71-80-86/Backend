@@ -35,7 +35,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: executing remote ssh command
+    - name: Execute SSH command and pull the latest image
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
@@ -45,4 +45,7 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           cd ./project
+          docker-compose stop
+          docker-compose rm -f
+          docker-compose pull   
           docker-compose up -d

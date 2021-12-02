@@ -17,7 +17,7 @@ import int222.project.exceptions.ExceptionResponse.ERROR_CODE;
 import int222.project.models.Product;
 import int222.project.models.Productcolor;
 import int222.project.models.ProductcolorPK;
-import int222.project.repositories.ProdColorJpaRepository;
+//import int222.project.repositories.ProdColorJpaRepository;
 import int222.project.repositories.ProductJpaRepository;
 
 @Service
@@ -27,8 +27,8 @@ public class ProductService {
 	// Repositories //
 	@Autowired
 	private ProductJpaRepository prodRepo;
-	@Autowired
-	private ProdColorJpaRepository pcRepo;
+//	@Autowired
+//	private ProdColorJpaRepository pcRepo;
 	// Services //
 	@Autowired
 	private FileStoreServices file;
